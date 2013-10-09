@@ -1,0 +1,133 @@
+Select network type: 
+1. MLP
+2. RBF
+1
+Enter the number of hidden layers: 
+1
+Enter number of training epochs: 
+1000000
+Enter number of samples: 
+200
+Enter a value for n: 
+2
+
+**************************************************************************
+Train/Validate/Test Round 1
+Using file data/n2/0 for training
+Using file data/n2/1 for validation
+Average validation error: 26.991470751614777%
+Average validation error: 26.472465109083277%
+Average validation error: 26.422996132987997%
+Average validation error: 26.411609423659215%
+Average validation error: 26.40363909280923%
+Average validation error: 26.39683387603977%
+Average validation error: 26.390810980569878%
+Average validation error: 26.3853583851416%
+Average validation error: 26.380345086827734%
+Average validation error: 26.375693559060544%
+Average validation error: 26.37135917408647%
+Average validation error: 26.367316425901304%
+Average validation error: 26.36355029782751%
+Average validation error: 26.36005099769151%
+Average validation error: 26.356810809673696%
+Average validation error: 26.353822270666267%
+Average validation error: 26.351077180918704%
+Average validation error: 26.348566143457475%
+Average validation error: 26.34719822057888%
+Average validation error: 26.34684885536985%
+
+Using file data/n2/2 for testing
+Average test error: 22.942573618695782%
+
+Leaving out file data/n2/3 for this round
+
+**************************************************************************
+Train/Validate/Test Round 2
+Using file data/n2/1 for training
+Using file data/n2/2 for validation
+Average validation error: 22.058687936374945%
+Average validation error: 21.244459178763858%
+Average validation error: 21.241145285841256%
+Average validation error: 21.265841001425514%
+Average validation error: 21.280113315962517%
+Average validation error: 21.28619254982348%
+Average validation error: 21.28703934375371%
+Average validation error: 21.2843503906896%
+Average validation error: 21.278895769755778%
+Average validation error: 21.271358391622275%
+Average validation error: 21.26221925834342%
+Average validation error: 21.251832654293896%
+Average validation error: 21.24046925360077%
+Average validation error: 21.22834225641933%
+Average validation error: 21.21578739288335%
+Average validation error: 21.202811173879677%
+Average validation error: 21.18993818280329%
+Average validation error: 21.177403395774412%
+Average validation error: 21.16471765919161%
+Average validation error: 21.151953476080738%
+
+Using file data/n2/3 for testing
+Average test error: 21.581937852236123%
+
+Leaving out file data/n2/0 for this round
+
+**************************************************************************
+Train/Validate/Test Round 3
+Using file data/n2/2 for training
+Using file data/n2/3 for validation
+Average validation error: 22.041622571397372%
+Average validation error: 21.067930585710823%
+Average validation error: 20.986881053543854%
+Average validation error: 20.955062909408728%
+Average validation error: 20.934675231396607%
+Average validation error: 20.918899741826486%
+Average validation error: 20.905715167382176%
+Average validation error: 20.89424855342508%
+Average validation error: 20.88404767922397%
+Average validation error: 20.874859245719083%
+Average validation error: 20.86653632690233%
+Average validation error: 20.858992610329647%
+Average validation error: 20.85217744751935%
+Average validation error: 20.846061274599283%
+Average validation error: 20.840626618613456%
+Average validation error: 20.83586231799106%
+Average validation error: 20.831759711375458%
+Average validation error: 20.828310105393903%
+Average validation error: 20.82550311904427%
+Average validation error: 20.823325655804382%
+
+Using file data/n2/0 for testing
+Average test error: 20.440078403478864%
+
+Leaving out file data/n2/1 for this round
+
+**************************************************************************
+Train/Validate/Test Round 4
+Using file data/n2/3 for training
+Using file data/n2/0 for validation
+Average validation error: 23.333473176667805%
+Average validation error: 23.027839931622008%
+Average validation error: 22.94373325092626%
+Average validation error: 22.89312189187766%
+Average validation error: 22.861660910752626%
+Average validation error: 22.84242764041255%
+Average validation error: 22.83063004852124%
+Average validation error: 22.824195773992884%
+Average validation error: 22.821771132561583%
+Average validation error: 22.822431590489284%
+Average validation error: 22.82551948198737%
+Average validation error: 22.83054910715128%
+Average validation error: 22.837182779109458%
+Average validation error: 22.846404214833555%
+Average validation error: 22.856661621675233%
+Average validation error: 22.867755027097893%
+Average validation error: 22.879512475105468%
+Average validation error: 22.89178321490877%
+Average validation error: 22.904819267473812%
+Average validation error: 22.918250398439092%
+
+Using file data/n2/1 for testing
+Average test error: 27.578077546397783%
+
+Leaving out file data/n2/2 for this round
+
