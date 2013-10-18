@@ -25,7 +25,7 @@ public class NeuralNet {
 		Scanner filescan1;
 		Scanner filescan2;
 		
-		Network net;
+		Network net = null;
 		
 		File file1;
 		File file2;
@@ -38,15 +38,20 @@ public class NeuralNet {
 		System.out.println("Select network type: ");
 		System.out.println("1. MLP");
 		System.out.println("2. RBF");
+		System.out.println("3. ANFIS");
+		
 		type = keyscan.nextInt();
 		
 		if(type == 1){
 			System.out.println("Enter the number of hidden layers: ");
 			layers = keyscan.nextInt();
 		}
-		else{
+		else if (type == 2){
 			System.out.println("Enter the number of centers: ");
 			centers = keyscan.nextInt();
+		}
+		else if (type == 3){
+			System.out.println("Test ANFIS: ");
 		}
 		
 		System.out.println("Enter number of training epochs: ");
@@ -94,9 +99,12 @@ public class NeuralNet {
 			if(type == 1){
 				net = new MLPNet(inputs, layers, outputs, rate);
 			}
-			else{
+			else if(type == 2){
 				net = new RBFNet(inputs, centers, outputs, rate, samples, set1);
-			}	
+			}
+			else if(type == 3){
+				net = new ANFISNet(inputs, centers, outputs, rate, samples, set1);
+			}
 			
 			for(int i = 0; i < 20; i++){
 				net.train(set1, samples, (epochs/20));				
