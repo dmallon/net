@@ -5,18 +5,20 @@ public class MLPNet implements Network{
 	private int numLayers;
 	private int numOutputs;
 	private int numNodes;
+	private char classifier;
 	
 	private double rate;
 	
 	private Neuron[] output;
 	private Neuron[][] hidden;
 	
-	MLPNet(int inputs, int layers, int outputs, double rate){	
+	MLPNet(int inputs, int layers, int outputs, double rate, char classifier){	
 		this.numInputs = inputs;
 		this.numLayers = layers;
 		this.numOutputs = outputs;
-		this.numNodes = inputs;
+		this.numNodes = 2 * inputs;
 		this.rate = rate;
+		this.classifier = classifier;
 		
 		this.hidden = new Neuron[this.numNodes][this.numLayers];
 		this.output = new Neuron[this.numOutputs];
@@ -34,8 +36,8 @@ public class MLPNet implements Network{
 		}
 	}
 
-	public void train(double[][] trainSet, int numSamples, int epochs){
-		double[] expected = new double[this.numOutputs];
+	public void train(double[][] trainSet, int numSamples, int epochs, char[] classes){
+		double expected;
 		double[] firstIn = new double[this.numInputs];
 		double[] inputs = new double[this.numNodes];
 		double[] outputs = new double[this.numNodes];
@@ -52,9 +54,10 @@ public class MLPNet implements Network{
 					firstIn[j] = trainSet[j][i];
 				}
 				
-				for (int j = this.numInputs; j < (this.numInputs) + this.numOutputs; j++){
-					expected[j - this.numInputs] = trainSet[j][i];
-				}
+				if(this.classifier == classes[i])
+					expected = 1.0;
+				else
+					expected = -1.0;
 				
 				// Hidden layers
 				for (int j = 0; j < this.numLayers; j++){
@@ -74,7 +77,7 @@ public class MLPNet implements Network{
 				for (int j = 0; j < this.numOutputs; j++){
 					this.output[j].activate(inputs);
 					finalOut[j] = this.output[j].getOutput();
-					this.output[j].setDelta(finalOut[j] - expected[j]);
+					this.output[j].setDelta(finalOut[j] - expected);
 				}
 				
 				// Begin back-propagation of delta					
@@ -152,48 +155,51 @@ public class MLPNet implements Network{
 		}
 	}
 	
-	public double process(double[][] set, int numSamples){
+	public char process(double[][] set, int index, char classes){
 		double[] firstIn = new double[this.numInputs];
 		double[] inputs = new double[this.numNodes];
-		double[] expected = new double[this.numOutputs];
 		double[] outputs = new double[this.numNodes];
 		double[] finalOut = new double[this.numOutputs];
-		double error;
-		double totalE = 0.0;
+		double expected;
+		double out = 0.0;
 		
-		for (int i = 0; i < numSamples; i++){
-			error = 0.0;
-			for (int j = 0; j < this.numInputs; j++){
-				firstIn[j] = set[j][i];
+		if(this.classifier == classes)
+			expected = 1.0;
+		else
+			expected = -1.0;
+		
+		for (int j = 0; j < this.numInputs; j++){
+			firstIn[j] = set[j][index];
+		}
+		
+		// Hidden layers
+		for (int j = 0; j < this.numLayers; j++){
+			for (int k = 0; k < this.numNodes; k++){
+				if(j == 0)
+					this.hidden[k][j].activate(firstIn);
+				else
+					this.hidden[k][j].activate(inputs);
+				outputs[k] = this.hidden[k][j].getOutput();
+			}						
+			for (int k = 0; k < this.numNodes; k++){
+				inputs[k] = outputs[k];
 			}
-
-			for (int j = this.numInputs; j < this.numInputs + this.numOutputs; j++){
-				expected[j - this.numInputs] = set[j][i];
-			}
-			
-			// Hidden layers
-			for (int j = 0; j < this.numLayers; j++){
-				for (int k = 0; k < this.numNodes; k++){
-					if(j == 0)
-						this.hidden[k][j].activate(firstIn);
-					else
-						this.hidden[k][j].activate(inputs);
-					outputs[k] = this.hidden[k][j].getOutput();
-				}						
-				for (int k = 0; k < this.numNodes; k++){
-					inputs[k] = outputs[k];
-				}
-			}
-			
-			// Output layer (and calculate output delta)
-			for (int j = 0; j < this.numOutputs; j++){
-				this.output[j].activate(inputs);
-				finalOut[j] = this.output[j].getOutput();
-				error = (Math.abs(finalOut[j] - expected[j])/expected[j]);
-				totalE += error;
-			}
-		}		
-		return ((totalE/numSamples)*100);
+		}
+		
+		// Output layer (and calculate output delta)
+		for (int j = 0; j < this.numOutputs; j++){
+			this.output[j].activate(inputs);
+			finalOut[j] = this.output[j].getOutput();
+			if(finalOut[j] > 0.0)
+				out = 1.0;
+			else
+				out = -1.0;					
+		}
+	
+		if(out == 1.0)
+			return (this.classifier);
+		else
+			return '!';
 	}
 	
 }

@@ -4,14 +4,33 @@ import java.util.Scanner;
 import java.io.File; 
 import java.io.IOException;
 
-public class NeuralNet {
-
-	public static void main(String[] args) throws IOException {
+public class NeuralNet implements Runnable{
+	Network net;
+	double[][] trainSet;
+	int numSamples;
+	int epochs;
+	char[] classes;
+	
+	public NeuralNet(Network net, double[][] trainSet, int numSamples, int epochs, char[] classes){
+		this.net = net;
+		this.trainSet = trainSet;
+		this.numSamples = numSamples;
+		this.epochs = epochs;
+		this.classes = classes;
+	}
+	public void run(){
+		net.train(trainSet, numSamples, epochs, classes);
+	}
+	
+	public static void main(String[] args) throws IOException, InterruptedException {
 		int type, inputs,samples, epochs;
 		
-		int outputs = 1;
+		int outputs = 26;
 		int layers = 0;
 		int centers = 0;
+		
+		char[] expected;
+		char[] classes;
 		
 		double rate;
 		
@@ -25,12 +44,14 @@ public class NeuralNet {
 		Scanner filescan1;
 		Scanner filescan2;
 		
-		Network net = null;
+		Thread[] threads;
+		
+		Network[] net;
 		
 		File file1;
 		File file2;
 		
-		rate = 0.01;
+		rate = 0.010;
 		
 		keyscan = new Scanner(System.in);
 		
@@ -63,6 +84,89 @@ public class NeuralNet {
 		System.out.println("Enter a value for n: ");
 		inputs = keyscan.nextInt();
 		
+		//System.out.println("Enter input file name: ");
+		//fileName1 = keyscan.next();
+		
+		////////
+		fileName1 = "data/letter-recognition.data";
+		////////
+		
+		file1 = new File(fileName1);
+		
+		threads = new Thread[8];
+		
+		filescan1 = new Scanner(file1).useDelimiter(",|\\n");
+		
+		set1 = new double[inputs][samples];
+		
+		classes = new char[outputs];
+		
+		expected = new char[samples];
+		
+		// Read in list of possible classes
+		for (int i = 0; i < outputs; i++){
+			classes[i] = filescan1.next().charAt(0);
+		}
+		
+		// Read in set vectors
+		for (int i = 0; i < samples; i++){
+			expected[i] = filescan1.next().charAt(0);
+			
+			for (int j = 0; j < inputs; j++){
+				set1[j][i] = Integer.parseInt(filescan1.next());
+			}
+		}
+		
+		net = new Network[outputs];
+		
+		int t = 0;
+		
+		for (int i = 0; i < outputs; i++){
+			net[i] = new MLPNet(inputs, layers, 1, rate, classes[i]);
+			
+			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected));
+			threads[t].start();
+			
+			if(t == 7){
+				for (Thread thread : threads) {
+					  thread.join();
+				}
+				t = 0;				
+			}
+			else
+				t++;
+			
+			//net[i].train(set1, samples, epochs, expected);
+		}
+		
+		
+		
+		char out;
+		for (int a = 0; a < 100; a++){
+			int responses = outputs;
+			for (int i = 0; i < outputs; i++){
+				out = net[i].process(set1, a, expected[a]);
+				if(out != '!'){
+					if(out == expected[a])
+						System.out.print(out + " ");
+					else						
+						System.out.print("Error(" + expected[a] + ") ");
+				}
+				else
+					responses--;
+			}
+			if(responses == 0)
+				System.out.print("Failed to classify");
+			System.out.println();
+		}
+		
+		
+		
+		
+		
+		
+		
+		/*
 		for (int a = 0; a < 4; a++){
 			System.out.println("\n**************************************************************************");
 			System.out.println("Train/Validate/Test Round " + (a + 1));
@@ -134,7 +238,10 @@ public class NeuralNet {
 			System.out.println("\nLeaving out file " + fileName1 + " for this round");
 						
 			filescan1.close();
-		}
+		}*/
+		
+		filescan1.close();
+		
 		keyscan.close();		
 	}
 

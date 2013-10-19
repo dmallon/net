@@ -145,6 +145,7 @@ public class RBFNet implements Network {
 		
 		for (int i = 0; i < numSamples; i++){
 			
+			
 			for (int j = 0; j < this.numInputs; j++){
 				input[j] = set[j][i];
 			}
