@@ -30,13 +30,16 @@ public class NeuralNet implements Runnable{
 	public static void main(String[] args) throws IOException, InterruptedException {
 		int type, inputs,samples, epochs, correct, error, fail;
 		
-		int outputs = 26;
+		int outputs = 1;
 		int layers = 0;
 		int centers = 0;
+		int numClasses;
 		
 	/** Set number of threads here **/
 		int numThreads = 8 ;
 	/********************************/
+		
+		char out;
 		
 		char[] expected1;
 		char[] expected2;
@@ -118,6 +121,8 @@ public class NeuralNet implements Runnable{
 			classes[i] = filescan1.next().charAt(0);
 		}
 		
+		numClasses = classes.length;
+		
 		// Read in training set vectors
 		for (int i = 0; i < samples; i++){
 			expected1[i] = filescan1.next().charAt(0);
@@ -136,21 +141,23 @@ public class NeuralNet implements Runnable{
 			}
 		}			
 		
-		net = new Network[outputs];
+		// Create one network for each possible class
+		net = new Network[numClasses];	
 		
-		int t = 0;
-		
-		for (int i = 0; i < outputs; i++){
+		// Fill up the thread array with training networks
+		int t = 0;		
+		for (int i = 0; i < numClasses; i++){
 			if(type == 1)
-				net[i] = new MLPNet(inputs, layers, 1, rate, classes[i]);
+				net[i] = new MLPNet(inputs, layers, outputs, rate, classes[i]);
 			else if (type == 2)
-				net[i] = new RBFNet(inputs, centers, 1, rate, classes[i], samples, set1);
+				net[i] = new RBFNet(inputs, centers, outputs, rate, classes[i], samples, set1);
 			else if (type == 3)
-				net[i] = new ANFISNet(inputs, centers, 1, rate, classes[i], set1);
+				net[i] = new ANFISNet(inputs, centers, outputs, rate, classes[i], set1);
 			
 			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected1));
 			threads[t].start();
 			
+			// If max number of threads is reached, wait for them to finish before starting a new batch
 			if(t == numThreads - 1){
 				for (Thread thread : threads) {
 					  thread.join();
@@ -161,17 +168,18 @@ public class NeuralNet implements Runnable{
 				t++;
 		}
 		
+		// Make sure last batch of threads finished before moving on
 		for (Thread thread : threads) {
 			  thread.join();
 		}
 		
+		// Begin testing phase ///////////////////////////////////////
+		correct = error = fail = 0;		
 		
-		correct = error = fail = 0;
-		
-		char out;
+		// Check each test vector against each class network
 		for (int a = 0; a < samples; a++){
-			int responses = outputs;
-			for (int i = 0; i < outputs; i++){
+			int responses = numClasses;
+			for (int i = 0; i < numClasses; i++){
 				out = net[i].process(set2, a);
 				if(out != '!'){
 					if(out == expected2[a]){
@@ -194,7 +202,7 @@ public class NeuralNet implements Runnable{
 		}
 		
 		System.out.println("Correct: " + correct + ", Error: " + error + ", Failed to Class: " + fail);
-		System.out.println("Percent incorrect: " + (((double)(error + fail))/((double)samples))*100.00);
+		System.out.println("Percent incorrect: " + (((double)(error + fail))/((double)samples))*100.00 + "%");
 		
 		filescan1.close();
 		keyscan.close();		
