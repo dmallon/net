@@ -48,7 +48,7 @@ public class MLPNet implements Network{
 		
 		while (a < epochs){
 			for (int i = 0; i < numSamples; i++){
-				this.rate = (this.rate / 1.000001);
+				//this.rate = (this.rate / 1.000001);
 				
 				for (int j = 0; j < this.numInputs; j++){
 					firstIn[j] = trainSet[j][i];
