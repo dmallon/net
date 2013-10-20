@@ -51,7 +51,7 @@ public class NeuralNet implements Runnable{
 		File file1;
 		File file2;
 		
-		rate = 0.010;
+		rate = 0.001;
 		
 		keyscan = new Scanner(System.in);
 		
@@ -140,6 +140,9 @@ public class NeuralNet implements Runnable{
 				t++;
 		}
 		
+		for (Thread thread : threads) {
+			  thread.join();
+		}
 		
 		
 		char out;
@@ -161,11 +164,7 @@ public class NeuralNet implements Runnable{
 			System.out.println();
 		}
 		
-		
-		
-		
-		
-		
+			
 		
 		/*
 		for (int a = 0; a < 4; a++){

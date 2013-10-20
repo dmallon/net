@@ -16,7 +16,7 @@ public class MLPNet implements Network{
 		this.numInputs = inputs;
 		this.numLayers = layers;
 		this.numOutputs = outputs;
-		this.numNodes = 2 * inputs;
+		this.numNodes = inputs;
 		this.rate = rate;
 		this.classifier = classifier;
 		
