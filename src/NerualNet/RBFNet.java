@@ -10,18 +10,21 @@ public class RBFNet implements Network {
 	private double rate;
 	private double max;
 	
+	private char classifier;
+	
 	private Neuron[] output;
 	private RBFNeuron[] hidden;
 	
 	private Random rnd = new Random();
 	
 	
-	RBFNet(int inputs, int centers, int outputs, double rate, int numSamples, double[][] set){
+	RBFNet(int inputs, int centers, int outputs, double rate, char classifier, int numSamples, double[][] set){
 		this.numInputs = inputs;
 		this.numCenters = centers;
 		this.numOutputs = outputs;
 		this.rate = rate;
 		this.max = 0.0;
+		this.classifier = classifier;
 		
 		this.hidden = new RBFNeuron[this.numCenters];
 		this.output = new Neuron[this.numOutputs];
@@ -66,11 +69,11 @@ public class RBFNet implements Network {
 		}
 	}
 	
-	public void train(double[][] set, int numSamples, int epochs){		
+	public void train(double[][] set, int numSamples, int epochs, char[] classes){		
 		int a = 0;
 		double wPrime;
+		double expected;
 		double[] input = new double[this.numInputs];
-		double[] expected = new double[this.numOutputs];
 		double[] hiddenOut = new double[this.numCenters];
 		double[] error = new double[this.numOutputs];
 		double[] error2 = new double[this.numCenters];
@@ -80,9 +83,10 @@ public class RBFNet implements Network {
 		while (a < epochs){
 			for (int i = 0; i < numSamples; i++){
 				this.rate = (this.rate / 1.000001);
-				for (int j = this.numInputs; j < this.numInputs + this.numOutputs; j++){
-					expected[j - this.numInputs] = set[j][i];
-				}
+				if(this.classifier == classes[i])
+					expected = 1.0;
+				else
+					expected = -1.0;
 				
 				// Activate the hidden nodes
 				for (int j = 0; j < this.numCenters; j++){
@@ -96,7 +100,7 @@ public class RBFNet implements Network {
 				// Activate the output node				
 				for (int j = 0; j < this.numOutputs; j++){
 					this.output[j].activate(hiddenOut);
-					error[j] = this.output[j].getOutput() - expected[j];
+					error[j] = this.output[j].getOutput() - expected;
 				}
 				
 				Neuron n;
@@ -135,37 +139,40 @@ public class RBFNet implements Network {
 		}
 	}	
 	
-	public double process(double[][] set, int numSamples){
-		double totalE = 0.0;
+	public char process(double[][] set, int index, char classes){
 		double[] input = new double[this.numInputs];
-		double[] expected = new double[this.numOutputs];
 		double[] error = new double[this.numOutputs];
 		double[] hiddenOut = new double[this.numCenters];
+		double expected;
+		double out = 0.0;
 		
-		
-		for (int i = 0; i < numSamples; i++){
-			
-			
-			for (int j = 0; j < this.numInputs; j++){
-				input[j] = set[j][i];
-			}
-
-			for (int j = this.numInputs; j < this.numInputs + this.numOutputs; j++){
-				expected[j - this.numInputs] = set[j][i];
-			}
-			
-			for (int j = 0; j < this.numCenters; j++){				
-				this.hidden[j].activate(input);
-				hiddenOut[j] = this.hidden[j].getOutput();
-			}
-			
-			// Activate the output node			
-			for (int j = 0; j < this.numOutputs; j++){
-				this.output[j].activate(hiddenOut);
-				error[j] = this.output[j].getOutput() - expected[j];
-				totalE += (Math.abs(error[j]/expected[j]));
-			}
+		for (int j = 0; j < this.numInputs; j++){
+			input[j] = set[j][index];
 		}
-		return ((totalE/numSamples)*100);
+
+		if(this.classifier == classes)
+			expected = 1.0;
+		else
+			expected = -1.0;
+		
+		for (int j = 0; j < this.numCenters; j++){				
+			this.hidden[j].activate(input);
+			hiddenOut[j] = this.hidden[j].getOutput();
+		}
+		
+		// Activate the output node			
+		for (int j = 0; j < this.numOutputs; j++){
+			this.output[j].activate(hiddenOut);
+			if(this.output[j].getOutput() > 0.0)
+				out = 1.0;
+			else
+				out = -1.0;
+		}
+		
+		if(out == 1.0)
+			return (this.classifier);
+		else
+			return '!';
+		
 	}
 }

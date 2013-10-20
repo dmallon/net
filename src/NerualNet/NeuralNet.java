@@ -122,7 +122,10 @@ public class NeuralNet implements Runnable{
 		int t = 0;
 		
 		for (int i = 0; i < outputs; i++){
-			net[i] = new MLPNet(inputs, layers, 1, rate, classes[i]);
+			if(type == 1)
+				net[i] = new MLPNet(inputs, layers, 1, rate, classes[i]);
+			else if (type == 2)
+				net[i] = new RBFNet(inputs, centers, 1, rate, classes[i], samples, set1);
 			
 			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected));
 			threads[t].start();
@@ -135,8 +138,6 @@ public class NeuralNet implements Runnable{
 			}
 			else
 				t++;
-			
-			//net[i].train(set1, samples, epochs, expected);
 		}
 		
 		
@@ -150,7 +151,7 @@ public class NeuralNet implements Runnable{
 					if(out == expected[a])
 						System.out.print(out + " ");
 					else						
-						System.out.print("Error(" + expected[a] + ") ");
+						System.out.print("Error(" + out + ") ");
 				}
 				else
 					responses--;
