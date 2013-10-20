@@ -29,6 +29,8 @@ public class NeuralNet implements Runnable{
 		int layers = 0;
 		int centers = 0;
 		
+		int numThreads = 8;
+		
 		char[] expected;
 		char[] classes;
 		
@@ -93,7 +95,7 @@ public class NeuralNet implements Runnable{
 		
 		file1 = new File(fileName1);
 		
-		threads = new Thread[8];
+		threads = new Thread[numThreads];
 		
 		filescan1 = new Scanner(file1).useDelimiter(",|\\n");
 		
@@ -130,7 +132,7 @@ public class NeuralNet implements Runnable{
 			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected));
 			threads[t].start();
 			
-			if(t == 7){
+			if(t == numThreads - 1){
 				for (Thread thread : threads) {
 					  thread.join();
 				}
