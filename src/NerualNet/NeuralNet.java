@@ -33,8 +33,13 @@ public class NeuralNet implements Runnable{
 		int outputs = 1;
 		int layers = 0;
 		int centers = 0;
+<<<<<<< HEAD
 		int numLabels = 0;
 		int numClasses;
+=======
+		int numClasses = 26;
+		boolean classFirst = true;
+>>>>>>> 24e4e027cbd6723ee1b6f63559d788dec4dd3506
 		
 	/** Set number of threads here **/
 		int numThreads = 8 ;
@@ -111,7 +116,7 @@ public class NeuralNet implements Runnable{
 		set1 = new double[inputs][samples];
 		set2 = new double[inputs][samples];
 		
-		classes = new char[outputs];
+		classes = new char[numClasses];
 		
 		expected1 = new char[samples];
 		expected2 = new char[samples];
@@ -119,28 +124,34 @@ public class NeuralNet implements Runnable{
 		threads = new Thread[numThreads];
 				
 		// Read in list of possible classes
-		for (int i = 0; i < outputs; i++){
+		for (int i = 0; i < numClasses; i++){
 			classes[i] = filescan1.next().charAt(0);
 		}
 		
-		numClasses = classes.length;
-		
 		// Read in training set vectors
 		for (int i = 0; i < samples; i++){
-			expected1[i] = filescan1.next().charAt(0);
+			if(classFirst)
+				expected1[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
 				set1[j][i] = Integer.parseInt(filescan1.next());
 			}
+			
+			if(!classFirst)
+				expected1[i] = filescan1.next().charAt(0);
 		}
 		
 		// Read in test set vectors
 		for (int i = 0; i < samples; i++){
-			expected2[i] = filescan1.next().charAt(0);
+			if(classFirst)				
+				expected2[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
 				set2[j][i] = Integer.parseInt(filescan1.next());
 			}
+			
+			if(!classFirst)				
+				expected2[i] = filescan1.next().charAt(0);
 		}			
 		
 		// Create one network for each possible class
