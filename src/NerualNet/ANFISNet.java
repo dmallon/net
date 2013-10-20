@@ -4,14 +4,18 @@ import java.util.Random;
 
 public class ANFISNet implements Network {
 	private int numInputs;
+	private int numRules = 10;
 	private int numOutputs;
 	private int numCenters;
 	
 	private double rate;
 	private double max;
 	
+	private PremiseNeuron[] premiseLayer;
+	private MultiplierNeuron[] multiplierLayer;
+	private NormalizerNeuron[] normalizationLayer;
+	private ConsequentNeuron[] consequentLayer;
 	private Neuron[] output;
-	private RBFNeuron[] hidden;
 	
 	private Random rnd = new Random();
 	
@@ -23,15 +27,27 @@ public class ANFISNet implements Network {
 		this.rate = rate;
 		this.max = 0.0;
 		
-		this.hidden = new RBFNeuron[this.numCenters];
+		this.premiseLayer = new PremiseNeuron[this.numCenters];
 		this.output = new Neuron[this.numOutputs];
 		
 		int index;
 		double[] input = new double[this.numInputs];
 		
-		// Initialize hidden nodes
+		// Initialize premise layer
+		for (int i = 0; i < this.numRules; i++){
+			this.premiseLayer[i] = new PremiseNeuron(this.numRules);
+		}
+		// Initialize multiplier layer
 		for (int i = 0; i < this.numCenters; i++){
-			this.hidden[i] = new RBFNeuron(this.numInputs);
+			this.multiplierLayer[i] = new MultiplierNeuron(this.numInputs);
+		}
+		// Initialize normalization layer
+		for (int i = 0; i < this.numCenters; i++){
+			this.normalizationLayer[i] = new NormalizerNeuron(this.numInputs);
+		}
+		// Initialize consequent layer
+		for (int i = 0; i < this.numCenters; i++){
+			this.consequentLayer[i] = new ConsequentNeuron(this.numInputs);
 		}
 		// Initialize output nodes
 		for (int i = 0; i < this.numOutputs; i++){
@@ -166,5 +182,18 @@ public class ANFISNet implements Network {
 			}
 		}
 		return ((totalE/numSamples)*100);
+	}
+
+	@Override
+	public void train(double[][] trainSet, int numSamples, int epochs,
+			char[] classes) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public char process(double[][] inputs, int numSamples, char classes) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -2,10 +2,10 @@ package NerualNet;
 
 
 public class RBFNeuron {
-	private int numInputs;
-	private double output;
-	private double spread;
-	private double[] center;
+	protected int numInputs;
+	protected double output;
+	protected double spread;
+	protected double[] center;
 	
 	RBFNeuron(int numInputs){
 		this.numInputs = numInputs;
