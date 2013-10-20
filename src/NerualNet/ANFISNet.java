@@ -4,9 +4,10 @@ import java.util.Random;
 
 public class ANFISNet implements Network {
 	private int numInputs;
-	private int numRules = 10;
-	private int numOutputs;
+	private int numLabels;
 	private int numCenters;
+	private int numRules;
+	private int numOutputs;
 	
 	private double rate;
 	private double max;
@@ -20,9 +21,13 @@ public class ANFISNet implements Network {
 	private Random rnd = new Random();
 	
 	
-	public ANFISNet(int inputs, int centers, int outputs, double rate, int numSamples, double[][] set){
+	public ANFISNet(int inputs, int numLabels, int outputs, double rate, int numSamples, double[][] set){
+		
+		System.out.print(set.length);
+		
 		this.numInputs = inputs;
-		this.numCenters = centers;
+//		this.numCenters = ;
+		this.numLabels = numLabels;
 		this.numOutputs = outputs;
 		this.rate = rate;
 		this.max = 0.0;
@@ -62,9 +67,9 @@ public class ANFISNet implements Network {
 			for (int j = 0; j < this.numInputs; j++){
 				input[j] = set[j][index];
 			}			
-			this.hidden[i].setCenter(input);
+			this.premiseLayer[i].setCenter(input);
 			
-			this.hidden[i].setSpread(this.max/Math.sqrt(this.numCenters));
+			this.premiseLayer[i].setSpread(this.max/Math.sqrt(this.numCenters));
 		}	
 	}
 	
@@ -82,7 +87,8 @@ public class ANFISNet implements Network {
 		}
 	}
 	
-	public void train(double[][] set, int numSamples, int epochs){		
+	
+	public void train(double[][] set, int numSamples, int epochs, char[] classes) {	
 		int a = 0;
 		double wPrime;
 		double[] input = new double[this.numInputs];
@@ -100,13 +106,13 @@ public class ANFISNet implements Network {
 					expected[j - this.numInputs] = set[j][i];
 				}
 				
-				// Activate the hidden nodes
+				// Activate the premise nodes
 				for (int j = 0; j < this.numCenters; j++){
 					for (int k = 0; k < this.numInputs; k++){
 						input[k] = set[k][i];
 					}				
-					this.hidden[j].activate(input);
-					hiddenOut[j] = this.hidden[j].getOutput();
+					this.premiseLayer[j].activate(input);
+					hiddenOut[j] = this.premiseLayer[j].getOutput();
 				}
 				
 				// Activate the output node				
@@ -137,10 +143,10 @@ public class ANFISNet implements Network {
 				
 				for (int j = 0; j < this.numCenters; j++){
 					for (int k = 0; k < this.numInputs; k++){
-						uPrime[k] = this.hidden[j].getCenter()[k] - this.rate * error2[j] * set[k][i];
+						uPrime[k] = this.premiseLayer[j].getCenter()[k] - this.rate * error2[j] * set[k][i];
 					}
-					this.hidden[j].setCenter(uPrime);
-					this.hidden[j].setSpread(this.hidden[j].getSpread() - this.rate * error2[j]);
+					this.premiseLayer[j].setCenter(uPrime);
+					this.premiseLayer[j].setSpread(this.premiseLayer[j].getSpread() - this.rate * error2[j]);
 				}
 				
 				a++;
@@ -151,7 +157,7 @@ public class ANFISNet implements Network {
 		}
 	}	
 	
-	public double process(double[][] set, int numSamples){
+	public char process(double[][] set, int numSamples){
 		double totalE = 0.0;
 		double[] input = new double[this.numInputs];
 		double[] expected = new double[this.numOutputs];
@@ -170,8 +176,8 @@ public class ANFISNet implements Network {
 			}
 			
 			for (int j = 0; j < this.numCenters; j++){				
-				this.hidden[j].activate(input);
-				hiddenOut[j] = this.hidden[j].getOutput();
+				this.premiseLayer[j].activate(input);
+				hiddenOut[j] = this.premiseLayer[j].getOutput();
 			}
 			
 			// Activate the output node			
@@ -181,19 +187,8 @@ public class ANFISNet implements Network {
 				totalE += (Math.abs(error[j]/expected[j]));
 			}
 		}
-		return ((totalE/numSamples)*100);
-	}
-
-	@Override
-	public void train(double[][] trainSet, int numSamples, int epochs,
-			char[] classes) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public char process(double[][] inputs, int numSamples, char classes) {
-		// TODO Auto-generated method stub
+//		return ((totalE/numSamples)*100);
 		return 0;
 	}
+	
 }

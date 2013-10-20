@@ -28,11 +28,12 @@ public class NeuralNet implements Runnable{
 	
 //// Main Program Entry	
 	public static void main(String[] args) throws IOException, InterruptedException {
-		int type, inputs,samples, epochs, correct, error, fail;
+		int type, inputs, samples, epochs, correct, error, fail;
 		
 		int outputs = 1;
 		int layers = 0;
 		int centers = 0;
+		int numLabels = 0;
 		int numClasses;
 		
 	/** Set number of threads here **/
@@ -82,7 +83,8 @@ public class NeuralNet implements Runnable{
 			centers = keyscan.nextInt();
 		}
 		else if (type == 3){
-			System.out.println("Test ANFIS: ");
+			System.out.println("Enter the number of labels: ");
+			numLabels = keyscan.nextInt();
 		}
 		
 		System.out.println("Enter number of training epochs: ");
@@ -152,7 +154,7 @@ public class NeuralNet implements Runnable{
 			else if (type == 2)
 				net[i] = new RBFNet(inputs, centers, outputs, rate, classes[i], samples, set1);
 			else if (type == 3)
-				net[i] = new ANFISNet(inputs, centers, outputs, rate, classes[i], set1);
+				net[i] = new ANFISNet(inputs, numLabels, outputs, rate, classes[i], set1);
 			
 			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected1));
 			threads[t].start();

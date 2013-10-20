@@ -10,7 +10,7 @@ public class NormalizerNeuron extends Neuron{
 	protected void activate(double[] inputs){
 		
 		for(int i = 0; i < this.numInputs; i++){
-			product *= inputs[i]; 
+//			product *= inputs[i]; 
 		}
 	}
 	
