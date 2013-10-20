@@ -48,7 +48,7 @@ public class MLPNet implements Network{
 		
 		while (a < epochs){
 			for (int i = 0; i < numSamples; i++){
-				//this.rate = (this.rate / 1.000001);
+				this.rate = (this.rate / 1.000001);
 				
 				for (int j = 0; j < this.numInputs; j++){
 					firstIn[j] = trainSet[j][i];
@@ -57,7 +57,7 @@ public class MLPNet implements Network{
 				if(this.classifier == classes[i])
 					expected = 1.0;
 				else
-					expected = -1.0;
+					expected = 0.0;
 				
 				// Hidden layers
 				for (int j = 0; j < this.numLayers; j++){
@@ -155,18 +155,12 @@ public class MLPNet implements Network{
 		}
 	}
 	
-	public char process(double[][] set, int index, char classes){
+	public char process(double[][] set, int index){
 		double[] firstIn = new double[this.numInputs];
 		double[] inputs = new double[this.numNodes];
 		double[] outputs = new double[this.numNodes];
 		double[] finalOut = new double[this.numOutputs];
-		double expected;
 		double out = 0.0;
-		
-		if(this.classifier == classes)
-			expected = 1.0;
-		else
-			expected = -1.0;
 		
 		for (int j = 0; j < this.numInputs; j++){
 			firstIn[j] = set[j][index];
@@ -190,10 +184,11 @@ public class MLPNet implements Network{
 		for (int j = 0; j < this.numOutputs; j++){
 			this.output[j].activate(inputs);
 			finalOut[j] = this.output[j].getOutput();
-			if(finalOut[j] > 0.0)
+			//System.out.println(finalOut[j]);
+			if(finalOut[j] > 0.5)
 				out = 1.0;
 			else
-				out = -1.0;					
+				out = 0.0;					
 		}
 	
 		if(out == 1.0)

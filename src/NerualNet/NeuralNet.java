@@ -28,22 +28,24 @@ public class NeuralNet implements Runnable{
 	
 //// Main Program Entry	
 	public static void main(String[] args) throws IOException, InterruptedException {
-		int type, inputs,samples, epochs;
+		int type, inputs,samples, epochs, correct, error, fail;
 		
 		int outputs = 26;
 		int layers = 0;
 		int centers = 0;
 		
 	/** Set number of threads here **/
-		int numThreads = 8;
+		int numThreads = 8 ;
 	/********************************/
 		
-		char[] expected;
+		char[] expected1;
+		char[] expected2;
 		char[] classes;
 		
 		double rate;
 		
 		double[][] set1;
+		double[][] set2;
 		
 		String fileName1;
 		
@@ -102,10 +104,12 @@ public class NeuralNet implements Runnable{
 		filescan1.useDelimiter(",|\\n");
 		
 		set1 = new double[inputs][samples];
+		set2 = new double[inputs][samples];
 		
 		classes = new char[outputs];
 		
-		expected = new char[samples];
+		expected1 = new char[samples];
+		expected2 = new char[samples];
 		
 		threads = new Thread[numThreads];
 				
@@ -114,14 +118,23 @@ public class NeuralNet implements Runnable{
 			classes[i] = filescan1.next().charAt(0);
 		}
 		
-		// Read in set vectors
+		// Read in training set vectors
 		for (int i = 0; i < samples; i++){
-			expected[i] = filescan1.next().charAt(0);
+			expected1[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
 				set1[j][i] = Integer.parseInt(filescan1.next());
 			}
 		}
+		
+		// Read in test set vectors
+		for (int i = 0; i < samples; i++){
+			expected2[i] = filescan1.next().charAt(0);
+			
+			for (int j = 0; j < inputs; j++){
+				set2[j][i] = Integer.parseInt(filescan1.next());
+			}
+		}			
 		
 		net = new Network[outputs];
 		
@@ -133,7 +146,7 @@ public class NeuralNet implements Runnable{
 			else if (type == 2)
 				net[i] = new RBFNet(inputs, centers, 1, rate, classes[i], samples, set1);
 			
-			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected));
+			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected1));
 			threads[t].start();
 			
 			if(t == numThreads - 1){
@@ -151,24 +164,35 @@ public class NeuralNet implements Runnable{
 		}
 		
 		
+		correct = error = fail = 0;
+		
 		char out;
-		for (int a = 0; a < 100; a++){
+		for (int a = 0; a < samples; a++){
 			int responses = outputs;
 			for (int i = 0; i < outputs; i++){
-				out = net[i].process(set1, a, expected[a]);
+				out = net[i].process(set2, a);
 				if(out != '!'){
-					if(out == expected[a])
-						System.out.print(out + " ");
-					else						
-						System.out.print("Error(" + out + ") ");
+					if(out == expected2[a]){
+						//System.out.print(out + " ");
+						correct++;
+					}
+					else{						
+						//System.out.print("Error(" + out + ") ");
+						error++;
+					}
 				}
 				else
 					responses--;
 			}
-			if(responses == 0)
-				System.out.print("Failed to classify");
-			System.out.println();
+			if(responses == 0){
+				//System.out.print("Failed to classify");
+				fail++;
+			}
+			//System.out.println();
 		}
+		
+		System.out.println("Correct: " + correct + ", Error: " + error + ", Failed to Class: " + fail);
+		System.out.println("Percent incorrect: " + (((double)(error + fail))/((double)samples))*100.00);
 		
 		filescan1.close();
 		keyscan.close();		

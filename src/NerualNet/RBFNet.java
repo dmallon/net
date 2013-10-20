@@ -86,7 +86,7 @@ public class RBFNet implements Network {
 				if(this.classifier == classes[i])
 					expected = 1.0;
 				else
-					expected = -1.0;
+					expected = 0.0;
 				
 				// Activate the hidden nodes
 				for (int j = 0; j < this.numCenters; j++){
@@ -139,21 +139,14 @@ public class RBFNet implements Network {
 		}
 	}	
 	
-	public char process(double[][] set, int index, char classes){
+	public char process(double[][] set, int index){
 		double[] input = new double[this.numInputs];
-		double[] error = new double[this.numOutputs];
 		double[] hiddenOut = new double[this.numCenters];
-		double expected;
 		double out = 0.0;
 		
 		for (int j = 0; j < this.numInputs; j++){
 			input[j] = set[j][index];
 		}
-
-		if(this.classifier == classes)
-			expected = 1.0;
-		else
-			expected = -1.0;
 		
 		for (int j = 0; j < this.numCenters; j++){				
 			this.hidden[j].activate(input);
@@ -163,10 +156,10 @@ public class RBFNet implements Network {
 		// Activate the output node			
 		for (int j = 0; j < this.numOutputs; j++){
 			this.output[j].activate(hiddenOut);
-			if(this.output[j].getOutput() > 0.0)
+			if(this.output[j].getOutput() > 0.5)
 				out = 1.0;
 			else
-				out = -1.0;
+				out = 0.0;
 		}
 		
 		if(out == 1.0)
