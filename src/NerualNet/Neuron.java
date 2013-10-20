@@ -3,13 +3,13 @@ package NerualNet;
 import java.util.Random;
 
 public class Neuron {
-	private int numInputs;
-	private int activation;
-	private double delta;
-	private double output;
-	private double derivative;
-	private double[] weight;
-	private Random rnd;
+	protected int numInputs;
+	protected int activation;
+	protected double delta;
+	protected double output;
+	protected double derivative;
+	protected double[] weight;
+	protected Random rnd;
 	
 	Neuron(int numInputs, int activation){
 		this.rnd = new Random();
@@ -24,6 +24,20 @@ public class Neuron {
 			this.weight[i] = (this.rnd.nextDouble() * 0.5) - 0.25;
 		}
 	}
+	
+	Neuron(int numInputs){
+		this.rnd = new Random();
+		this.delta = 0.0;
+		this.output = 0.0;
+		this.derivative = 0.0;
+		this.numInputs = numInputs;
+		this.weight = new double[this.numInputs];
+		
+		for (int i = 0; i < this.numInputs; i++){
+			this.weight[i] = (this.rnd.nextDouble() * 3.0) - 1.5;
+		}
+	}
+	
 	
 	protected void activate(double[] inputs){
 		double sum = 0.0;

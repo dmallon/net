@@ -145,6 +145,8 @@ public class NeuralNet implements Runnable{
 				net[i] = new MLPNet(inputs, layers, 1, rate, classes[i]);
 			else if (type == 2)
 				net[i] = new RBFNet(inputs, centers, 1, rate, classes[i], samples, set1);
+			else if (type == 3)
+				net[i] = new ANFISNet(inputs, centers, 1, rate, classes[i], set1);
 			
 			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected1));
 			threads[t].start();
