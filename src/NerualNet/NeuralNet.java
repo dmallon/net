@@ -33,13 +33,9 @@ public class NeuralNet implements Runnable{
 		int outputs = 1;
 		int layers = 0;
 		int centers = 0;
-<<<<<<< HEAD
 		int numLabels = 0;
-		int numClasses;
-=======
 		int numClasses = 26;
 		boolean classFirst = true;
->>>>>>> 24e4e027cbd6723ee1b6f63559d788dec4dd3506
 		
 	/** Set number of threads here **/
 		int numThreads = 8 ;
