@@ -211,7 +211,7 @@ public class NeuralNet implements Runnable{
 		}
 		
 		System.out.println("Correct: " + correct + ", Error: " + error + ", Failed to Class: " + fail);
-		System.out.println("Percent incorrect: " + (((double)(error + fail))/((double)samples))*100.00 + "%");
+		System.out.println("Percent incorrect: " + (((double)(error + fail))/((double)(error + fail + correct)))*100.00 + "%");
 		
 		filescan1.close();
 		keyscan.close();		
