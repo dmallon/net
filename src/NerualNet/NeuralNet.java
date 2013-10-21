@@ -107,7 +107,7 @@ public class NeuralNet implements Runnable{
 		file1 = new File(fileName1);
 		
 		filescan1 = new Scanner(file1);
-		filescan1.useDelimiter(",|\\n");
+		filescan1.useDelimiter(",|\\r|\\r\\n");
 		
 		set1 = new double[inputs][samples];
 		set2 = new double[inputs][samples];
@@ -161,7 +161,7 @@ public class NeuralNet implements Runnable{
 			else if (type == 2)
 				net[i] = new RBFNet(inputs, centers, outputs, rate, classes[i], samples, set1);
 			else if (type == 3)
-				net[i] = new ANFISNet(inputs, numLabels, outputs, rate, classes[i], set1);
+				net[i] = new ANFISNet(inputs, numLabels, outputs, rate, classes[i], samples, set1);
 			
 			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected1));
 			threads[t].start();

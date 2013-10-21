@@ -10,7 +10,7 @@ public class MultiplierNeuron extends Neuron{
 	}
 
 	protected void activate(double[] inputs){
-		double product = 0.0;
+		double product = 1.0;
 		
 		for(int i = 0; i < this.numInputs; i++){
 			product *= inputs[i];
