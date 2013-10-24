@@ -34,8 +34,8 @@ public class NeuralNet implements Runnable{
 		int layers = 0;
 		int centers = 0;
 		int numLabels = 0;
-		int numClasses = 26;
-		boolean classFirst = true;
+		int numClasses = 10;
+		boolean classFirst = false;
 		
 	/** Set number of threads here **/
 		int numThreads = 8 ;
@@ -101,13 +101,14 @@ public class NeuralNet implements Runnable{
 		//fileName1 = keyscan.next();
 		
 		//////// Hardcode filename for now
-		fileName1 = "data/letter-recognition.data";
+		//fileName1 = "data/letter-recognition.data";
+		fileName1 = "data/optdigits.tes";
 		////////
 		
 		file1 = new File(fileName1);
 		
 		filescan1 = new Scanner(file1);
-		filescan1.useDelimiter(",|\\r|\\r\\n");
+		filescan1.useDelimiter(",|\\n|\\r\\n");
 		
 		set1 = new double[inputs][samples];
 		set2 = new double[inputs][samples];
@@ -121,7 +122,7 @@ public class NeuralNet implements Runnable{
 				
 		// Read in list of possible classes
 		for (int i = 0; i < numClasses; i++){
-			classes[i] = filescan1.next().charAt(0);
+			classes[i] = filescan1.next().trim().charAt(0);
 		}
 		
 		// Read in training set vectors
@@ -130,7 +131,7 @@ public class NeuralNet implements Runnable{
 				expected1[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
-				set1[j][i] = Integer.parseInt(filescan1.next());
+				set1[j][i] = Integer.parseInt(filescan1.next().trim());
 			}
 			
 			if(!classFirst)
@@ -143,7 +144,7 @@ public class NeuralNet implements Runnable{
 				expected2[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
-				set2[j][i] = Integer.parseInt(filescan1.next());
+				set2[j][i] = Integer.parseInt(filescan1.next().trim());
 			}
 			
 			if(!classFirst)				
