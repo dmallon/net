@@ -23,21 +23,7 @@ public class Neuron {
 		for (int i = 0; i < this.numInputs; i++){
 			this.weight[i] = (this.rnd.nextDouble() * 0.5) - 0.25;
 		}
-	}
-	
-	Neuron(int numInputs){
-		this.rnd = new Random();
-		this.delta = 0.0;
-		this.output = 0.0;
-		this.derivative = 0.0;
-		this.numInputs = numInputs;
-		this.weight = new double[this.numInputs];
-		
-		for (int i = 0; i < this.numInputs; i++){
-			this.weight[i] = (this.rnd.nextDouble() * 3.0) - 1.5;
-		}
-	}
-	
+	}	
 	
 	protected void activate(double[] inputs){
 		double sum = 0.0;
