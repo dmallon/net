@@ -22,14 +22,24 @@ public class ANFISNet implements Network {
 	
 	private Random rnd = new Random();
 	
-	
+	/**
+	 * 
+	 * @param inputs
+	 * @param numLabels
+	 * @param outputs
+	 * @param rate
+	 * @param classifier
+	 * @param numSamples
+	 * @param set
+	 */
 	public ANFISNet(int inputs, int numLabels, int outputs, double rate, char classifier, int numSamples, double[][] set){
 		
 		System.out.print(inputs);
 		
 		this.numInputs = inputs;
 		this.numCenters = inputs * numLabels;
-		this.numRules = (int) Math.pow(numLabels, inputs);
+//		this.numRules = (int) Math.pow(numLabels, inputs);
+		this.numRules = numLabels;
 		this.numLabels = numLabels;
 		this.numOutputs = outputs;
 		this.classifier = classifier;
@@ -43,8 +53,6 @@ public class ANFISNet implements Network {
 		this.output = new Neuron[this.numOutputs];
 		
 		
-		int index;
-		double[] input = new double[this.numInputs];
 		
 		// Initialize premise layer
 		for (int i = 0; i < this.numCenters; i++){
@@ -52,7 +60,7 @@ public class ANFISNet implements Network {
 		}
 		// Initialize multiplier layer
 		for (int i = 0; i < this.numRules; i++){
-			this.multiplierLayer[i] = new MultiplierNeuron(this.numLabels);
+			this.multiplierLayer[i] = new MultiplierNeuron(this.numRules);
 		}
 		// Initialize normalization layer
 		for (int i = 0; i < this.numRules; i++){
@@ -60,7 +68,7 @@ public class ANFISNet implements Network {
 		}
 		// Initialize consequent layer
 		for (int i = 0; i < this.numRules; i++){
-			this.consequentLayer[i] = new ConsequentNeuron(this.numInputs + 1);
+			this.consequentLayer[i] = new ConsequentNeuron(this.numRules);
 		}
 		// Initialize output nodes
 		for (int i = 0; i < this.numOutputs; i++){
@@ -69,6 +77,10 @@ public class ANFISNet implements Network {
 		
 		this.setMaxD(set, numSamples);
 		
+		int index;
+		double[] input = new double[this.numInputs];
+		
+		// Initialize premise layer params
 		for (int i = 0; i < this.numCenters; i++){
 			index = rnd.nextInt(numSamples);
 			
@@ -82,7 +94,12 @@ public class ANFISNet implements Network {
 	}
 	
 	
-	
+	/**
+	 * Set maximum distance between membership functions
+	 * 
+	 * @param set
+	 * @param numSamples
+	 */
 	private void setMaxD(double[][] set, int numSamples){
 		double d = 0.0;
 		
@@ -102,7 +119,7 @@ public class ANFISNet implements Network {
 		int a = 0;
 		double wPrime;
 		double expected;
-		double[] input = new double[this.numInputs];
+		double[] inputs = new double[this.numInputs];
 		double[] premiseOut = new double[this.numCenters];
 		double[] multiplierOut = new double[this.numRules];
 		double[] normalizerOut = new double[this.numRules];
@@ -122,52 +139,50 @@ public class ANFISNet implements Network {
 				
 				// Populate input from set
 				for (int k = 0; k < this.numInputs; k++){
-					input[k] = set[k][i];
+					inputs[k] = set[k][i];
 				}
 				
 				for (int j = 0; j < this.numCenters; j++){
 					for (int k = 0; k < this.numInputs; k++){
-						input[k] = set[k][i];
+						inputs[k] = set[k][i];
 					}
-					this.premiseLayer[j].activate(input);
+					this.premiseLayer[j].activate(inputs);
 					premiseOut[j] = this.premiseLayer[j].getOutput();
 				}
 				
 				// Activate the premise nodes
 				for (int j = 0; j < this.numCenters; j++){
 					for (int k = 0; k < this.numInputs; k++){
-						input[k] = set[k][i];
+						inputs[k] = set[k][i];
 					}
-					this.premiseLayer[j].activate(input);
+					this.premiseLayer[j].activate(inputs);
 					premiseOut[j] = this.premiseLayer[j].getOutput();
 				}
-				
-				
 				
 				// Activate the multiplier nodes
 				for (int j = 0; j < this.numCenters; j++){
 					for (int k = 0; k < this.numInputs; k++){
-						input[k] = set[k][i];
+						inputs[k] = set[k][i];
 					}
-					this.premiseLayer[j].activate(input);
+					this.premiseLayer[j].activate(inputs);
 					premiseOut[j] = this.premiseLayer[j].getOutput();
 				}
 				
 				// Activate the normalizer nodes
 				for (int j = 0; j < this.numCenters; j++){
 					for (int k = 0; k < this.numInputs; k++){
-						input[k] = set[k][i];
+						inputs[k] = set[k][i];
 					}
-					this.premiseLayer[j].activate(input);
+					this.premiseLayer[j].activate(inputs);
 					premiseOut[j] = this.premiseLayer[j].getOutput();
 				}
 				
 				// Activate the consequent nodes
 				for (int j = 0; j < this.numCenters; j++){
 					for (int k = 0; k < this.numInputs; k++){
-						input[k] = set[k][i];
+						inputs[k] = set[k][i];
 					}
-					this.premiseLayer[j].activate(input);
+					this.premiseLayer[j].activate(inputs);
 					premiseOut[j] = this.premiseLayer[j].getOutput();
 				}
 				
@@ -212,6 +227,7 @@ public class ANFISNet implements Network {
 			}
 		}
 	}	
+	
 	
 	public char process(double[][] set, int index){
 		double[] input = new double[this.numInputs];
