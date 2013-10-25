@@ -16,7 +16,7 @@ public class NeuralNet{
 		int centers = 0;
 		int numLabels = 0;
 		int numClasses = 26;
-		double rate = 0.1;
+		double rate = 0.75;
 		boolean classFirst = true;
 		
 	/** Set number of threads here **/
