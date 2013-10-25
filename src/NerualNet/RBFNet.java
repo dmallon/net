@@ -82,7 +82,7 @@ public class RBFNet implements Network {
 		
 		while (a < epochs){
 			for (int i = 0; i < numSamples; i++){
-				this.rate = (this.rate / 1.0001);
+				this.rate = (this.rate / 1.00001);
 				if(this.classifier == classes[i])
 					expected = 1.0;
 				else
@@ -127,8 +127,8 @@ public class RBFNet implements Network {
 					for (int k = 0; k < this.numInputs; k++){
 						uPrime[k] = this.hidden[j].getCenter()[k] - this.rate * error2[j] * set[k][i];
 					}
-					this.hidden[j].setCenter(uPrime);
-					this.hidden[j].setSpread(this.hidden[j].getSpread() - this.rate * error2[j]);
+					//this.hidden[j].setCenter(uPrime);
+					//this.hidden[j].setSpread(this.hidden[j].getSpread() - this.rate * error2[j]);
 				}
 				
 				a++;
@@ -156,7 +156,7 @@ public class RBFNet implements Network {
 		// Activate the output node			
 		for (int j = 0; j < this.numOutputs; j++){
 			this.output[j].activate(hiddenOut);
-			if(this.output[j].getOutput() > 0.5)
+			if(this.output[j].getOutput() > 0.25)
 				out = 1.0;
 			else
 				out = 0.0;
