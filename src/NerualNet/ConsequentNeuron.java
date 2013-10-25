@@ -2,15 +2,19 @@ package NerualNet;
 
 public class ConsequentNeuron extends Neuron{
 
-	ConsequentNeuron(int numInputs) {
-		super(numInputs);
-		// TODO Auto-generated constructor stub
+	double[] params;
+	
+	ConsequentNeuron(int numInputs, int numParams) {
+		super(numInputs, 1);
+		this.params = new double[numParams];
 	}
 	
-	protected void activate(double[] inputs){
-		double sum = 0.0;
-		for(int i = 0; i < this.numInputs; i++){
-			sum += this.weight[i]*inputs[i]; 
+	protected void activate(double[] inputs, double weight){
+		double sum = 0;
+		for(int i=0; i < this.params.length; i++){
+			sum += params[i] * inputs[i];
 		}
+		
+		this.output = weight * sum;
 	}
 }

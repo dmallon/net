@@ -103,6 +103,8 @@ public class RBFNet implements Network {
 					error[j] = this.output[j].getOutput() - expected;
 				}
 				
+				
+				// Begin back-propagation of delta	
 				Neuron n;
 				
 				for (int j = 0; j < this.numOutputs; j++){
@@ -112,6 +114,7 @@ public class RBFNet implements Network {
 						n.setWeight(k, wPrime);
 					}
 				}
+				
 				
 				double sum;
 				
@@ -138,6 +141,8 @@ public class RBFNet implements Network {
 			}
 		}
 	}	
+	
+	
 	
 	public char process(double[][] set, int index){
 		double[] input = new double[this.numInputs];

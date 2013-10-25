@@ -101,8 +101,8 @@ public class NeuralNet implements Runnable{
 		//fileName1 = keyscan.next();
 		
 		//////// Hardcode filename for now
-		//fileName1 = "data/letter-recognition.data";
-		fileName1 = "data/optdigits.tes";
+		fileName1 = "data/letter-recognition.data";
+//		fileName1 = "data/optdigits.tes";
 		////////
 		
 		file1 = new File(fileName1);
