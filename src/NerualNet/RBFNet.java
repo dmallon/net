@@ -82,7 +82,7 @@ public class RBFNet implements Network {
 		
 		while (a < epochs){
 			for (int i = 0; i < numSamples; i++){
-				this.rate = (this.rate / 1.000001);
+				this.rate = (this.rate / 1.0001);
 				if(this.classifier == classes[i])
 					expected = 1.0;
 				else

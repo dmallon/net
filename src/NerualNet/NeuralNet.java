@@ -5,26 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 // Main driver class for all network types
-public class NeuralNet implements Runnable{
-	
-/*** Setup requirements for multithreading the training process **************/	
-	Network net;
-	double[][] trainSet;
-	int numSamples;
-	int epochs;
-	char[] classes;
-	
-	public NeuralNet(Network net, double[][] trainSet, int numSamples, int epochs, char[] classes){
-		this.net = net;
-		this.trainSet = trainSet;
-		this.numSamples = numSamples;
-		this.epochs = epochs;
-		this.classes = classes;
-	}
-	public void run(){
-		this.net.train(this.trainSet, this.numSamples, this.epochs, this.classes);
-	}
-/*************** End threading setup *******************************************/
+public class NeuralNet{
 	
 //// Main Program Entry	
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -34,14 +15,12 @@ public class NeuralNet implements Runnable{
 		int layers = 0;
 		int centers = 0;
 		int numLabels = 0;
-		int numClasses = 10;
-		boolean classFirst = false;
+		int numClasses = 26;
+		boolean classFirst = true;
 		
 	/** Set number of threads here **/
 		int numThreads = 8 ;
 	/********************************/
-		
-		char out;
 		
 		char[] expected1;
 		char[] expected2;
@@ -57,13 +36,14 @@ public class NeuralNet implements Runnable{
 		Scanner keyscan;
 		Scanner filescan1;
 		
-		Thread[] threads;
+		TrainingThread[] trainThreads;
+		TestThread[] testThreads;
 		
 		Network[] net;
 		
 		File file1;
 		
-		rate = 0.01;
+		rate = 0.75;
 		
 		keyscan = new Scanner(System.in);
 		
@@ -103,7 +83,7 @@ public class NeuralNet implements Runnable{
 		//////// Hardcode filename for now
 		fileName1 = "data/letter-recognition.data";
 //		fileName1 = "data/optdigits.tes";
-		////////
+
 		
 		file1 = new File(fileName1);
 		
@@ -118,7 +98,7 @@ public class NeuralNet implements Runnable{
 		expected1 = new char[samples];
 		expected2 = new char[samples];
 		
-		threads = new Thread[numThreads];
+		trainThreads = new TrainingThread[numThreads];
 				
 		// Read in list of possible classes
 		for (int i = 0; i < numClasses; i++){
@@ -164,12 +144,12 @@ public class NeuralNet implements Runnable{
 			else if (type == 3)
 				net[i] = new ANFISNet(inputs, numLabels, outputs, rate, classes[i], samples, set1);
 			
-			threads[t] = new Thread(new NeuralNet(net[i], set1, samples, epochs, expected1));
-			threads[t].start();
+			trainThreads[t] = new TrainingThread(net[i], set1, samples, epochs, expected1);
+			trainThreads[t].start();
 			
 			// If max number of threads is reached, wait for them to finish before starting a new batch
 			if(t == numThreads - 1){
-				for (Thread thread : threads) {
+				for (TrainingThread thread : trainThreads) {
 					  thread.join();
 				}
 				t = 0;				
@@ -179,7 +159,7 @@ public class NeuralNet implements Runnable{
 		}
 		
 		// Make sure last batch of threads finished before moving on
-		for (Thread thread : threads) {
+		for (TrainingThread thread : trainThreads) {
 			  thread.join();
 		}
 		
@@ -187,28 +167,43 @@ public class NeuralNet implements Runnable{
 		correct = error = fail = 0;		
 		
 		// Check each test vector against each class network
-		for (int a = 0; a < samples; a++){
-			int responses = numClasses;
-			for (int i = 0; i < numClasses; i++){
-				out = net[i].process(set2, a);
-				if(out != '!'){
-					if(out == expected2[a]){
-						//System.out.print(out + " ");
-						correct++;
-					}
-					else{						
-						//System.out.print("Error(" + out + ") ");
-						error++;
-					}
+		
+		testThreads = new TestThread[numThreads];
+		t = 0;
+		int[] result = new int[3];
+		for (int a = 0; a < samples; a++){	
+			
+			testThreads[t] = new TestThread(net, set2, expected2, a, numClasses);
+			testThreads[t].start();
+			
+			// If max number of threads is reached, wait for them to finish before starting a new batch
+			if(t == numThreads - 1){
+				for (TestThread thread : testThreads) {
+					  thread.join();
 				}
-				else
-					responses--;
+				t = 0;
+				for(int k = 0; k < numThreads; k++){
+					result = testThreads[k].getResult();
+					correct += result[0];
+					error += result[1];
+					fail += result[2];
+				}
 			}
-			if(responses == 0){
-				//System.out.print("Failed to classify");
-				fail++;
+			else
+				t++;
+			
+		}
+		for (TestThread thread : testThreads) {
+			  thread.join();
+		}
+		t = 0;
+		for(int k = 0; k < numThreads; k++){
+			if(testThreads[k] != null){
+				result = testThreads[k].getResult();
+				correct += result[0];
+				error += result[1];
+				fail += result[2];
 			}
-			//System.out.println();
 		}
 		
 		System.out.println("Correct: " + correct + ", Error: " + error + ", Failed to Class: " + fail);
