@@ -21,7 +21,7 @@ public class Neuron {
 		this.weight = new double[this.numInputs];
 		
 		for (int i = 0; i < this.numInputs; i++){
-			this.weight[i] = (this.rnd.nextDouble() * 0.5) - 0.25;
+			this.weight[i] = (this.rnd.nextDouble() * 0.05) - 0.025;
 		}
 	}	
 	
@@ -65,10 +65,10 @@ public class Neuron {
 	}
 	
 	private double sigmoidFunc(double x){
-		return Math.tanh(x);
+		return Math.tanh(10.0*x);
 	}
 	
 	private double sigDerivative(double x){
-		return (1.0 - Math.pow(Math.tanh(x), 2.0));
+		return (1.0 - Math.pow(Math.tanh(10.0*x), 2.0));
 	}
 }

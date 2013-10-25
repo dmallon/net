@@ -15,9 +15,9 @@ public class NeuralNet{
 		int layers = 0;
 		int centers = 0;
 		int numLabels = 0;
-		int numClasses = 26;
-		double rate = 0.75;
-		boolean classFirst = true;
+		int numClasses = 10;
+		double rate = 0.01;
+		boolean classFirst = false;
 		
 	/** Set number of threads here **/
 		int numThreads = 8 ;
@@ -78,8 +78,9 @@ public class NeuralNet{
 		//fileName1 = keyscan.next();
 		
 		//////// Hardcode filename for now
-		fileName1 = "data/letter-recognition.data";
-		//fileName1 = "data/pendigits.tra";
+		//fileName1 = "data/letter-recognition.data";
+		fileName1 = "data/pendigits.tra";
+		//fileName1 = "data/optdigits.tra";
 		////////
 
 		file1 = new File(fileName1);

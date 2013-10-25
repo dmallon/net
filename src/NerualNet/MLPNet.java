@@ -185,7 +185,7 @@ public class MLPNet implements Network{
 		for (int j = 0; j < this.numOutputs; j++){
 			this.output[j].activate(inputs);
 			finalOut[j] = this.output[j].getOutput();
-			//System.out.println(finalOut[j]);
+			System.out.println(finalOut[j]);
 			if(finalOut[j] > 0.65)
 				out = 1.0;
 			else

@@ -212,8 +212,6 @@ public class ANFISNet implements Network {
 				
 				
 				
-				
-				
 				// Update premise layer's parameters
 				for (int j = 0; j < this.numRules; j++){
 					uPrime = this.premiseLayer[j].getC() - this.rate * error2[j] * set[j][i];
