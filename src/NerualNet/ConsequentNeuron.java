@@ -4,6 +4,7 @@ public class ConsequentNeuron extends Neuron{
 
 	double[] params;
 	
+	
 	ConsequentNeuron(int numInputs, int numParams) {
 		super(numInputs, 1);
 		this.params = new double[numParams];
@@ -16,5 +17,13 @@ public class ConsequentNeuron extends Neuron{
 		}
 		
 		this.output = weight * sum;
+	}
+	
+	public double[] getParams() {
+		return params;
+	}
+
+	public void setParams(double[] params) {
+		this.params = params;
 	}
 }

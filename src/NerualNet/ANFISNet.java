@@ -1,6 +1,8 @@
 package NerualNet;
 
 import java.util.Random;
+//import org.apache.*;
+import Jama.*;
 
 public class ANFISNet implements Network {
 	private int numInputs;
@@ -113,7 +115,7 @@ public class ANFISNet implements Network {
 	
 	
 	public void train(double[][] set, int numSamples, int epochs, char[] classes){		
-		int a = 0;
+		int e = 0;
 		double expected;
 		double firstIn;
 		double[] inputs = new double[this.numInputs];
@@ -130,7 +132,7 @@ public class ANFISNet implements Network {
 		
 			
 		
-		while (a < epochs){
+		while (e < epochs){
 			for (int i = 0; i < numSamples; i++){
 				this.rate = (this.rate / 1.000001);
 				if(this.classifier == classes[i])
@@ -144,13 +146,13 @@ public class ANFISNet implements Network {
 				}
 				
 				// Activate the premise nodes
-				int x = 0; // input index
+				int z = 0; // input index
 				for (int j = 0; j < this.numMF; j++){
 					
 					// feed input to each A, B, C .. #MF
-					firstIn = inputs[x];
+					firstIn = inputs[z];
 					if(j % this.numLabels == 0 && j != 0){
-						x++;
+						z++;
 					}
 					
 					this.premiseLayer[j].activate(firstIn);
@@ -194,11 +196,32 @@ public class ANFISNet implements Network {
 				
 				/***********************************
 				 * 	Forward Pass
-				 *  Compute consequent coefficients
+				 *  Compute consequent coefficients using Least Square Estimation
 				 ***********************************/
+				int numParams = inputs.length + 1;
+				// Compute S
+				double[][] s = new double[numParams][numParams];
+				double[][] x = new double[numParams][1];
+				double[][] a = new double[numParams][1];
+				double B = expected;
+				
+				// Initialize S0 = yI, where y is a large number and I is identity matrix
+				for(int m = 0; m < numParams; m++){
+					for(int n = 0; n < numParams; n++){
+						s[m][n] = (m == n) ? 200 : 0;
+					}
+				}
+				
+				// Initialize X0 = O vector
+				for(int m = 0; m < numParams; m++){
+					x[m][1] = 0;
+				}
+				
+				Matrix A = new Matrix(a);
 				
 				
-				
+//				S = Matrix.subtract(S, Matrix.multiply(Matrix.multiply(Matrix.multiply(Matrix.multiply(S, A), A), S)), 1/);
+			    
 				
 				
 				
@@ -224,8 +247,8 @@ public class ANFISNet implements Network {
 					this.premiseLayer[j].setB(bPrime);
 				}
 				
-				a++;
-				if(a == epochs)
+				e++;
+				if(e == epochs)
 					break;
 				//System.out.println("\n");
 			}
