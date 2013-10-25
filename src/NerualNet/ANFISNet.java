@@ -164,7 +164,7 @@ public class ANFISNet implements Network {
 				
 				// Activate the multiplier nodes
 				for (int j = 0; j < this.numRules; j++){
-					for (int k = 0, m = 0; k < this.numMF; j += this.numLabels, m++){
+					for (int k = 0, m = 0; k < this.numMF; k += this.numLabels, m++){
 						multiplierInputs[m] = this.premiseLayer[j].getOutput();
 					}
 					this.multiplierLayer[j].activate(multiplierInputs);
@@ -197,38 +197,25 @@ public class ANFISNet implements Network {
 				}
 				
 				
+				/***********************************
+				 * 	Forward Pass
+				 *  Compute consequent coefficients
+				 ***********************************/
+				
+				
+				
+				
+				
+				
 				/*****************************************
 				 * 
 				 *  Begin back-propagation
 				 *  
 				 *****************************************/
 				
-				// Calculate consequent layer deltas
-				double sum;
-				for (int j = 0; j < this.numRules; j++){
-					sum = 0.0;
-					for (int k = 0; k < this.numOutputs; k++){
-						sum += this.outputLayer[k].getDelta() * this.outputLayer[k].getWeight()[j];
-					}
-					this.consequentLayer[j].setDelta(this.consequentLayer[j].getDerivative() * sum);
-				}
 				
-				// Calculate normalizer layer deltas
-				for (int j = 0; j < this.numRules; j++){
-					sum = 0.0;
-					sum += this.consequentLayer[j].getDelta() * this.consequentLayer[j].getWeight()[j];
-					
-					this.normalizerLayer[j].setDelta(this.normalizerLayer[j].getDerivative() * sum);
-				}
 				
-				// Calculate multiplier layer deltas
-				for (int j = 0; j < this.numRules; j++){
-					sum = 0.0;
-					for (int k = 0; k < this.numRules; k++){
-						sum += this.normalizerLayer[k].getDelta() * this.normalizerLayer[k].getWeight()[j];
-					}
-					this.multiplierLayer[j].setDelta(this.multiplierLayer[j].getDerivative() * sum);
-				}
+				
 				
 				
 				

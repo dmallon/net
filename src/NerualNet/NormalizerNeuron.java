@@ -2,6 +2,8 @@ package NerualNet;
 
 public class NormalizerNeuron extends Neuron{
 	
+	double wBar;
+	
 	NormalizerNeuron(int numInputs) {
 		super(numInputs, 1);		
 	}
@@ -9,7 +11,7 @@ public class NormalizerNeuron extends Neuron{
 	protected void activate(double[] inputs){
 		
 		for(int i = 0; i < this.numInputs; i++){
-//			product *= inputs[i]; 
+			
 		}
 	}
 	
