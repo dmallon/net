@@ -1,5 +1,6 @@
 package NerualNet;
 
+
 public class MLPNet implements Network{
 	private int numInputs;
 	private int numLayers;
@@ -16,7 +17,7 @@ public class MLPNet implements Network{
 		this.numInputs = inputs;
 		this.numLayers = layers;
 		this.numOutputs = outputs;
-		this.numNodes = inputs;
+		this.numNodes = 2 * inputs;
 		this.rate = rate;
 		this.classifier = classifier;
 		
@@ -185,7 +186,7 @@ public class MLPNet implements Network{
 			this.output[j].activate(inputs);
 			finalOut[j] = this.output[j].getOutput();
 			//System.out.println(finalOut[j]);
-			if(finalOut[j] > 0.5)
+			if(finalOut[j] > 0.65)
 				out = 1.0;
 			else
 				out = 0.0;					

@@ -32,10 +32,7 @@ public class ANFISNet implements Network {
 	 * @param numSamples
 	 * @param set
 	 */
-	public ANFISNet(int inputs, int numLabels, int outputs, double rate, char classifier, int numSamples, double[][] set){
-		
-		System.out.print(inputs);
-		
+	public ANFISNet(int inputs, int numLabels, int outputs, double rate, char classifier, int numSamples, double[][] set){		
 		this.numInputs = inputs;
 		this.numMF = inputs * numLabels;
 //		this.numRules = (int) Math.pow(numLabels, inputs);
@@ -68,7 +65,7 @@ public class ANFISNet implements Network {
 		}
 		// Initialize consequent layer
 		for (int i = 0; i < this.numRules; i++){
-			this.consequentLayer[i] = new ConsequentNeuron(this.numRules, this.numInputs + 1);
+			this.consequentLayer[i] = new ConsequentNeuron(this.numRules, this.numInputs);
 		}
 		// Initialize output nodes
 		for (int i = 0; i < this.numOutputs; i++){
@@ -117,7 +114,6 @@ public class ANFISNet implements Network {
 	
 	public void train(double[][] set, int numSamples, int epochs, char[] classes){		
 		int a = 0;
-		double wPrime;
 		double expected;
 		double firstIn;
 		double[] inputs = new double[this.numInputs];
@@ -128,7 +124,6 @@ public class ANFISNet implements Network {
 		double[] normalizerOut = new double[this.numRules];
 		double[] consequentOut = new double[this.numRules];
 		double[] finalOut = new double[this.numOutputs];
-		double[] error = new double[this.numOutputs];
 		double[] error2 = new double[this.numMF];
 		double uPrime;
 		double bPrime;
@@ -181,7 +176,7 @@ public class ANFISNet implements Network {
 				}
 				
 				// Activate the consequent nodes
-				for (int j = 0; j < this.numMF; j++){
+				for (int j = 0; j < this.numRules; j++){
 					this.consequentLayer[j].activate(inputs, this.consequentLayer[j].getWeight()[0]); // Get first (and only) weight for consequent neuron
 					consequentOut[j] = this.consequentLayer[j].getOutput();
 				}
@@ -220,7 +215,7 @@ public class ANFISNet implements Network {
 				
 				
 				// Update premise layer's parameters
-				for (int j = 0; j < this.numMF; j++){
+				for (int j = 0; j < this.numRules; j++){
 					uPrime = this.premiseLayer[j].getC() - this.rate * error2[j] * set[j][i];
 					bPrime = this.premiseLayer[j].getB() - this.rate * error2[j] * set[j][i];
 					

@@ -7,7 +7,7 @@ import java.io.IOException;
 // Main driver class for all network types
 public class NeuralNet{
 	
-//// Main Program Entry	
+//// Main Program Entry	////
 	public static void main(String[] args) throws IOException, InterruptedException {
 		int type, inputs, samples, epochs, correct, error, fail;
 		
@@ -16,6 +16,7 @@ public class NeuralNet{
 		int centers = 0;
 		int numLabels = 0;
 		int numClasses = 26;
+		double rate = 0.75;
 		boolean classFirst = true;
 		
 	/** Set number of threads here **/
@@ -25,8 +26,6 @@ public class NeuralNet{
 		char[] expected1;
 		char[] expected2;
 		char[] classes;
-		
-		double rate;
 		
 		double[][] set1;
 		double[][] set2;
@@ -42,8 +41,6 @@ public class NeuralNet{
 		Network[] net;
 		
 		File file1;
-		
-		rate = 0.75;
 		
 		keyscan = new Scanner(System.in);
 		
@@ -82,9 +79,9 @@ public class NeuralNet{
 		
 		//////// Hardcode filename for now
 		fileName1 = "data/letter-recognition.data";
-//		fileName1 = "data/optdigits.tes";
+		//fileName1 = "data/pendigits.tra";
+		////////
 
-		
 		file1 = new File(fileName1);
 		
 		filescan1 = new Scanner(file1);
@@ -187,6 +184,7 @@ public class NeuralNet{
 					correct += result[0];
 					error += result[1];
 					fail += result[2];
+					testThreads[k] = null;
 				}
 			}
 			else
@@ -194,9 +192,9 @@ public class NeuralNet{
 			
 		}
 		for (TestThread thread : testThreads) {
-			  thread.join();
+			if(thread != null)
+				thread.join();
 		}
-		t = 0;
 		for(int k = 0; k < numThreads; k++){
 			if(testThreads[k] != null){
 				result = testThreads[k].getResult();

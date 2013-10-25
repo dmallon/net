@@ -21,7 +21,7 @@ public class PremiseNeuron extends RBFNeuron{
 
 	public double getDerivative() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1.0;
 	}
 	
 	public double getB() {

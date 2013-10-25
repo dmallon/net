@@ -3,10 +3,10 @@ package NerualNet;
 import java.util.Random;
 
 public class MultiplierNeuron extends Neuron{
-	
+
 	double w;
 	
-	MultiplierNeuron(int numInputs) {
+	MultiplierNeuron(int numInputs){
 		super(numInputs, 1);
 		// TODO Auto-generated constructor stub
 	}
