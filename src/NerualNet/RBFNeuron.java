@@ -37,8 +37,7 @@ public class RBFNeuron {
 	}
 	
 	private double gaussian(double[] input){
-		double exp;
-		
+		double exp;		
 		exp = -(this.sqrDistance(input) / (2.0 * Math.pow(this.spread, 2.0)));		
 		return Math.pow(Math.E, exp);
 	}

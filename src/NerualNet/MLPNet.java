@@ -86,9 +86,9 @@ public class MLPNet implements Network{
 					sum = 0.0;
 					for (int k = 0; k < this.numOutputs; k++){
 						sum += this.output[k].getDelta() * this.output[k].getWeight()[j];
-					}					
+					}
 					this.hidden[j][this.numLayers - 1].setDelta(this.hidden[j][this.numLayers - 1].getDerivative() * sum);
-				}				
+				}			
 							
 				for (int j = this.numLayers - 2; j >= 0; j--){
 					for(int k = 0; k < this.numNodes; k++){

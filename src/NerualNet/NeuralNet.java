@@ -81,7 +81,7 @@ public class NeuralNet{
 		fileName1 = "data/letter-recognition.data";
 		//fileName1 = "data/pendigits.tra";
 		////////
-		
+
 		file1 = new File(fileName1);
 		
 		filescan1 = new Scanner(file1);

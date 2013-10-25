@@ -5,7 +5,7 @@ import java.util.Random;
 public class MultiplierNeuron extends Neuron{
 	
 	MultiplierNeuron(int numInputs) {
-		super(numInputs);
+		super(numInputs, 1);
 		// TODO Auto-generated constructor stub
 	}
 
