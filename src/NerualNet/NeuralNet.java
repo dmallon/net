@@ -9,15 +9,15 @@ public class NeuralNet{
 	
 //// Main Program Entry	////
 	public static void main(String[] args) throws IOException, InterruptedException {
-		int type, inputs, samples, epochs, correct, error, fail;
-		
+		int type, trainingStrategy, inputs, samples, epochs, correct, error, fail;
+	
 		int outputs = 1;
 		int layers = 0;
 		int centers = 0;
 		int numLabels = 0;
-		int numClasses = 10;
+		int numClasses = 26;
 		double rate = 0.01;
-		boolean classFirst = false;
+		boolean classFirst = true;
 		
 	/** Set number of threads here **/
 		int numThreads = 8 ;
@@ -44,26 +44,11 @@ public class NeuralNet{
 		
 		keyscan = new Scanner(System.in);
 		
+	
 		
-		System.out.println("Select network type: ");
-		System.out.println("1. MLP");
-		System.out.println("2. RBF");
-		System.out.println("3. ANFIS");
+		System.out.println("Enter the number of hidden layers: ");
+		layers = keyscan.nextInt();
 		
-		type = keyscan.nextInt();
-		
-		if(type == 1){
-			System.out.println("Enter the number of hidden layers: ");
-			layers = keyscan.nextInt();
-		}
-		else if (type == 2){
-			System.out.println("Enter the number of centers: ");
-			centers = keyscan.nextInt();
-		}
-		else if (type == 3){
-			System.out.println("Enter the number of labels: ");
-			numLabels = keyscan.nextInt();
-		}
 		
 		System.out.println("Enter number of training epochs: ");
 		epochs = keyscan.nextInt();
@@ -74,12 +59,20 @@ public class NeuralNet{
 		System.out.println("Enter a value for n: ");
 		inputs = keyscan.nextInt();
 		
+		System.out.println("Enter a training strategy: ");
+		System.out.println("Select network type: ");
+		System.out.println("1. Backpropagation");
+		System.out.println("2. Genetic Algorithm");
+		System.out.println("3. Evolutionary Strategy");
+		System.out.println("4. Differential Evolution");
+		trainingStrategy = keyscan.nextInt();
+		
 		//System.out.println("Enter input file name: ");
 		//fileName1 = keyscan.next();
 		
 		//////// Hardcode filename for now
-		//fileName1 = "data/letter-recognition.data";
-		fileName1 = "data/pendigits.tra";
+		fileName1 = "data/letter-recognition.data";
+//		fileName1 = "data/pendigits.tra";
 		//fileName1 = "data/optdigits.tra";
 		////////
 
@@ -130,17 +123,25 @@ public class NeuralNet{
 		}			
 		
 		// Create one network for each possible class
-		net = new Network[numClasses];	
+		net = new MLPNet[numClasses];	
 		
 		// Fill up the thread array with training networks
 		int t = 0;		
 		for (int i = 0; i < numClasses; i++){
-			if(type == 1)
-				net[i] = new MLPNet(inputs, layers, outputs, rate, classes[i]);
-			else if (type == 2)
-				net[i] = new RBFNet(inputs, centers, outputs, rate, classes[i], samples, set1);
-			else if (type == 3)
-				net[i] = new ANFISNet(inputs, numLabels, outputs, rate, classes[i], samples, set1);
+			net[i] = new MLPNet(inputs, layers, outputs, rate, classes[i]);
+			
+			if(trainingStrategy == 1)
+				net[i].setTrainingStrategy(new BPTrainingStrategy());
+			
+			else if(trainingStrategy == 2)
+				net[i].setTrainingStrategy(new GATrainingStrategy());
+			
+			else if(trainingStrategy == 3)
+				net[i].setTrainingStrategy(new ESTrainingStrategy());
+			
+			else if(trainingStrategy == 4)
+				net[i].setTrainingStrategy(new DETrainingStrategy());
+			
 			
 			trainThreads[t] = new TrainingThread(net[i], set1, samples, epochs, expected1);
 			trainThreads[t].start();
