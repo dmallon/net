@@ -1,6 +1,9 @@
-/nbproject/
-/.classpath
-/.settings
-/bin/
-/dist/
-/build/
+nbproject/
+.classpath
+.settings
+bin/
+dist/
+build/
+.project
+build.xml
+manifest.mf
