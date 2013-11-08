@@ -59,7 +59,7 @@ public class NeuralNet{
 		System.out.println("Enter a value for n: ");
 		inputs = keyscan.nextInt();
 		
-		System.out.println("Enter a training strategy: ");
+		System.out.println("Enter a training algorithm: ");
 		System.out.println("1. Backpropagation");
 		System.out.println("2. Genetic Algorithm");
 		System.out.println("3. Evolutionary Strategy");

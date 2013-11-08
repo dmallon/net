@@ -1,0 +1,176 @@
+package NerualNet;
+
+import java.util.Random;
+
+public class RBFNet extends Network {
+	private int numInputs;
+	private int numOutputs;
+	private int numCenters;
+	
+	private double rate;
+	private double max;
+	
+	private char classifier;
+	
+	private Neuron[] output;
+	private RBFNeuron[] hidden;
+	
+	private Random rnd = new Random();
+	
+	
+	RBFNet(int inputs, int centers, int outputs, double rate, char classifier, int numSamples, double[][] set){
+		this.numInputs = inputs;
+		this.numCenters = centers;
+		this.numOutputs = outputs;
+		this.rate = rate;
+		this.max = 0.0;
+		this.classifier = classifier;
+		
+		this.hidden = new RBFNeuron[this.numCenters];
+		this.output = new Neuron[this.numOutputs];
+		
+		int index;
+		double[] input = new double[this.numInputs];
+		
+		// Initialize hidden nodes
+		for (int i = 0; i < this.numCenters; i++){
+			this.hidden[i] = new RBFNeuron(this.numInputs);
+		}
+		// Initialize output nodes
+		for (int i = 0; i < this.numOutputs; i++){
+			this.output[i] = new Neuron(this.numCenters, 1);
+		}
+		
+		this.setMaxD(set, numSamples);
+		
+		for (int i = 0; i < this.numCenters; i++){
+			index = rnd.nextInt(numSamples);
+			
+			for (int j = 0; j < this.numInputs; j++){
+				input[j] = set[j][index];
+			}			
+			this.hidden[i].setCenter(input);
+			
+			this.hidden[i].setSpread(this.max/Math.sqrt(this.numCenters));
+		}	
+	}
+	
+	private void setMaxD(double[][] set, int numSamples){
+		double d = 0.0;
+		
+		for (int i = 0; i < numSamples - 1; i++){
+			for (int j = i + 1; j < numSamples; j++){
+				for (int k = 0; k < this.numInputs; k++){
+					d += Math.pow((set[k][i] - set[k][j]), 2.0);
+				}
+				d = Math.sqrt(d);
+				this.max = Math.max(this.max, d);
+			}
+		}
+	}
+	
+	public void train(double[][] set, int numSamples, int epochs, char[] classes){		
+		int a = 0;
+		double wPrime;
+		double expected;
+		double[] input = new double[this.numInputs];
+		double[] hiddenOut = new double[this.numCenters];
+		double[] error = new double[this.numOutputs];
+		double[] error2 = new double[this.numCenters];
+		double[] uPrime = new double[this.numInputs];
+			
+		
+		while (a < epochs){
+			for (int i = 0; i < numSamples; i++){
+				this.rate = (this.rate / 1.00001);
+				if(this.classifier == classes[i])
+					expected = 1.0;
+				else
+					expected = 0.0;
+				
+				// Activate the hidden nodes
+				for (int j = 0; j < this.numCenters; j++){
+					for (int k = 0; k < this.numInputs; k++){
+						input[k] = set[k][i];
+					}				
+					this.hidden[j].activate(input);
+					hiddenOut[j] = this.hidden[j].getOutput();
+				}
+				
+				// Activate the output node				
+				for (int j = 0; j < this.numOutputs; j++){
+					this.output[j].activate(hiddenOut);
+					error[j] = this.output[j].getOutput() - expected;
+				}
+				
+				
+				// Begin back-propagation of delta	
+				Neuron n;
+				
+				for (int j = 0; j < this.numOutputs; j++){
+					n = this.output[j];
+					for (int k = 0; k < this.numCenters; k++){
+						wPrime = n.getWeight()[k] - this.rate * error[j] * hiddenOut[k];
+						n.setWeight(k, wPrime);
+					}
+				}
+				
+				
+				double sum;
+				
+				for (int j = 0; j > this.numCenters; j++){
+					sum = 0.0;
+					for (int k = 0; k < this.numOutputs; k++){
+						sum += this.output[k].getWeight()[j] * error[k];
+					}			
+					error2[j] = sum;
+				}
+				
+				for (int j = 0; j < this.numCenters; j++){
+					for (int k = 0; k < this.numInputs; k++){
+						uPrime[k] = this.hidden[j].getCenter()[k] - this.rate * error2[j] * set[k][i];
+					}
+					//this.hidden[j].setCenter(uPrime);
+					//this.hidden[j].setSpread(this.hidden[j].getSpread() - this.rate * error2[j]);
+				}
+				
+				a++;
+				if(a == epochs)
+					break;
+				//System.out.println("\n");
+			}
+		}
+	}	
+	
+	
+	
+	public int process(double[][] set, int index){
+		double[] input = new double[this.numInputs];
+		double[] hiddenOut = new double[this.numCenters];
+		double out = 0.0;
+		
+		for (int j = 0; j < this.numInputs; j++){
+			input[j] = set[j][index];
+		}
+		
+		for (int j = 0; j < this.numCenters; j++){				
+			this.hidden[j].activate(input);
+			hiddenOut[j] = this.hidden[j].getOutput();
+		}
+		
+		// Activate the output node			
+		for (int j = 0; j < this.numOutputs; j++){
+			this.output[j].activate(hiddenOut);
+			if(this.output[j].getOutput() > 0.25)
+				out = 1.0;
+			else
+				out = 0.0;
+		}
+		
+		if(out == 1.0)
+			return (this.classifier);
+		else
+			return '!';
+		
+	}
+}
