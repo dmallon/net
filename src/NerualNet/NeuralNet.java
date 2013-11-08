@@ -60,7 +60,6 @@ public class NeuralNet{
 		inputs = keyscan.nextInt();
 		
 		System.out.println("Enter a training strategy: ");
-		System.out.println("Select network type: ");
 		System.out.println("1. Backpropagation");
 		System.out.println("2. Genetic Algorithm");
 		System.out.println("3. Evolutionary Strategy");
