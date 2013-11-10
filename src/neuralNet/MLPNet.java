@@ -80,6 +80,53 @@ public class MLPNet extends Network{
 		else
 			return '!';
 	}
+	
+	public double test(double[][] trainSet, int numSamples, char[] classes){
+		double[] firstIn = new double[this.numInputs];
+		double[] inputs = new double[this.numNodes];
+		double[] outputs = new double[this.numNodes];
+		double[] finalOut = new double[this.numOutputs];
+		int incorrect = 0;
+		double fitness = 0.0;
+		double out = 0.0;
+		
+		for (int i = 0; i < numSamples; i++){
+			for (int j = 0; j < numInputs; j++){
+				firstIn[j] = trainSet[i][j];
+			}
+			
+			// Hidden layers
+			for (int j = 0; j < this.numLayers; j++){
+				for (int k = 0; k < this.numNodes; k++){
+					if(j == 0)
+						this.hidden[k][j].activate(firstIn);
+					else
+						this.hidden[k][j].activate(inputs);
+					outputs[k] = this.hidden[k][j].getOutput();
+				}						
+				for (int k = 0; k < this.numNodes; k++){
+					inputs[k] = outputs[k];
+				}
+			}
+			
+			// Output layer (and calculate output delta)
+			for (int j = 0; j < this.numOutputs; j++){
+				this.output[j].activate(inputs);
+				finalOut[j] = this.output[j].getOutput();
+				System.out.println(finalOut[j]);
+				if(finalOut[j] > 0.65)
+					out = 1.0;
+				else
+					out = 0.0;					
+			}
+			if(out == 0.0 && this.classifier == classes[i])
+				incorrect++;
+			else if (out == 1.0 && this.classifier != classes[i])
+				incorrect++;		
+		}
+		fitness = ((double)incorrect)/((double)numSamples);
+		return fitness;
+	}
 
 	public ITrainingStrategy getTrainingStrategy() {
 		return trainingStrategy;
