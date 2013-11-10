@@ -1,27 +1,13 @@
 package neuralNet;
 
 
-public class MLPNet extends Network{
-	private int numInputs;
-	private int numLayers;
-	private int numOutputs;
-	private int numNodes;
-	private char classifier;
-	
-	private double rate;
-	
-	private Neuron[] output;
-	private Neuron[][] hidden;
-	
-	private ITrainingStrategy trainingStrategy;
-	
-	
+public class MLPNet extends Network{	
 	
 	MLPNet(int inputs, int layers, int outputs, double rate, char classifier){	
 		this.numInputs = inputs;
 		this.numLayers = layers;
 		this.numOutputs = outputs;
-		this.numNodes = 2 * inputs;
+		this.numNodes = inputs;
 		this.rate = rate;
 		this.classifier = classifier;
 		
@@ -46,7 +32,7 @@ public class MLPNet extends Network{
 	 * 
 	 */
 	public void train(double[][] trainSet, int numSamples, int epochs, char[] classes){
-		this.trainingStrategy.train(trainSet, numSamples, epochs, classes, numInputs, numLayers, numNodes, numOutputs, hidden, output, classifier, rate);
+		this.trainingStrategy.train(this, trainSet, numSamples, epochs, classes);
 	}
 	
 	

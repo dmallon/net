@@ -1,6 +1,18 @@
 package neuralNet;
 
 public class Network {
+	protected int numInputs;
+	protected int numLayers;
+	protected int numOutputs;
+	protected int numNodes;
+	protected char classifier;
+	
+	protected double rate;
+	
+	protected Neuron[] output;
+	protected Neuron[][] hidden;
+	
+	protected ITrainingStrategy trainingStrategy;
 
 	public void setTrainingStrategy(ITrainingStrategy iTrainingStrategy) {
 		// TODO Auto-generated method stub

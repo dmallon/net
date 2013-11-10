@@ -9,18 +9,21 @@ public class NeuralNet{
 	
 //// Main Program Entry	////
 	public static void main(String[] args) throws IOException, InterruptedException {
-		int type, trainingStrategy, inputs, samples, epochs, correct, error, fail;
+		int trainingStrategy, inputs, samples, epochs, correct, error, fail;
 	
 		int outputs = 1;
 		int layers = 0;
-		int centers = 0;
-		int numLabels = 0;
-		int numClasses = 26;
+		int numClasses = 3;
 		double rate = 0.01;
 		boolean classFirst = true;
 		
+		int numThreads;
+		
 	/** Set number of threads here **/
-		int numThreads = 8 ;
+		if(numClasses < 8)
+			numThreads = numClasses;
+		else
+			numThreads = 8;
 	/********************************/
 		
 		char[] expected1;
@@ -70,9 +73,7 @@ public class NeuralNet{
 		//fileName1 = keyscan.next();
 		
 		//////// Hardcode filename for now
-		fileName1 = "data/letter-recognition.data";
-//		fileName1 = "data/pendigits.tra";
-		//fileName1 = "data/optdigits.tra";
+		fileName1 = "data/wine.data";
 		////////
 
 		file1 = new File(fileName1);
@@ -101,7 +102,7 @@ public class NeuralNet{
 				expected1[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
-				set1[j][i] = Integer.parseInt(filescan1.next().trim());
+				set1[j][i] = Double.parseDouble(filescan1.next().trim());
 			}
 			
 			if(!classFirst)
@@ -114,7 +115,7 @@ public class NeuralNet{
 				expected2[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
-				set2[j][i] = Integer.parseInt(filescan1.next().trim());
+				set2[j][i] = Double.parseDouble(filescan1.next().trim());
 			}
 			
 			if(!classFirst)				

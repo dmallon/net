@@ -21,7 +21,7 @@ public class Neuron {
 		this.weight = new double[this.numInputs];
 		
 		for (int i = 0; i < this.numInputs; i++){
-			this.weight[i] = (this.rnd.nextDouble() * 0.05) - 0.025;
+			this.weight[i] = (this.rnd.nextDouble() * 0.6) - 0.3;
 		}
 	}	
 	

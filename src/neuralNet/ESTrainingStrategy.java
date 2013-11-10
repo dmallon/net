@@ -3,7 +3,7 @@ package neuralNet;
 public class ESTrainingStrategy implements ITrainingStrategy {
 
 	@Override
-	public void train(double[][] trainSet, int numSamples, int epochs, char[] classes, int numInputs, int numLayers, int numNodes, int numOutputs, Neuron[][] hidden, Neuron[] output, char classifier, double rate) {
+	public void train(Network net, double[][] trainSet, int numSamples, int epochs, char[] classes) {
 		// TODO Auto-generated method stub
 		
 	}
