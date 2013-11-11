@@ -33,4 +33,7 @@ public class Network {
 	public double test(double[][] trainSet, int numSamples, char[] classes){
 		return 0.0;
 	}
+	
+	public void setWeights(double[] chrom){
+	}
 }
