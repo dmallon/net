@@ -14,22 +14,38 @@ public class Network {
 	
 	protected ITrainingStrategy trainingStrategy;
 
-	public void setTrainingStrategy(ITrainingStrategy iTrainingStrategy) {
-		// TODO Auto-generated method stub
-		
-	}
+	/**
+	 * 
+	 * @param iTrainingStrategy
+	 */
+	public void setTrainingStrategy(ITrainingStrategy iTrainingStrategy) {}
 
-	public void train(double[][] trainSet, int numSamples, int epochs,
-			char[] classes) {
-		// TODO Auto-generated method stub
-		
-	}
+	/**
+	 * 
+	 * @param trainSet
+	 * @param numSamples
+	 * @param epochs
+	 * @param classes
+	 */
+	public void train(double[][] trainSet, int numSamples, int epochs, char[] classes) {}
 
+	/**
+	 * 
+	 * @param trainSet
+	 * @param index
+	 * @return
+	 */
 	public int process(double[][] trainSet, int index) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
+	/**
+	 * 
+	 * @param trainSet
+	 * @param numSamples
+	 * @param classes
+	 * @return
+	 */
 	public double test(double[][] trainSet, int numSamples, char[] classes){
 		return 0.0;
 	}
