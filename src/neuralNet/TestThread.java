@@ -2,14 +2,14 @@ package neuralNet;
 
 public class TestThread extends Thread{
 /*** Setup requirements for multithreading the testing process **************/	
-	Network[] nets;
+	MLPNet[] nets;
 	double[][] trainSet;
 	char[] expected;
 	int index;
 	int numClasses;
 	int[] results;
 	
-	public TestThread(Network[] nets, double[][] trainSet, char[] expected, int index, int numClasses){
+	public TestThread(MLPNet[] nets, double[][] trainSet, char[] expected, int index, int numClasses){
 		this.nets = nets;
 		this.trainSet = trainSet;
 		this.index = index;

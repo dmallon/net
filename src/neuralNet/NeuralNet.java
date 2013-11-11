@@ -41,7 +41,7 @@ public class NeuralNet{
 		TrainingThread[] trainThreads;
 		TestThread[] testThreads;
 		
-		Network[] net;
+		MLPNet[] net;
 		
 		File file1;
 		

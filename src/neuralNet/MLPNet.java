@@ -1,7 +1,19 @@
 package neuralNet;
 
 
-public class MLPNet extends Network{	
+public class MLPNet{	
+	protected int numInputs;
+	protected int numLayers;
+	protected int numOutputs;
+	protected int numNodes;
+	protected char classifier;
+	
+	protected double rate;
+	
+	protected Neuron[] output;
+	protected Neuron[][] hidden;
+	
+	protected ITrainingStrategy trainingStrategy;
 	
 	MLPNet(int inputs, int layers, int outputs, double rate, char classifier){	
 		this.numInputs = inputs;
@@ -10,6 +22,7 @@ public class MLPNet extends Network{
 		this.numNodes = inputs;
 		this.rate = rate;
 		this.classifier = classifier;
+		this.trainingStrategy = null;
 		
 		this.hidden = new Neuron[this.numNodes][this.numLayers];
 		this.output = new Neuron[this.numOutputs];
@@ -113,7 +126,7 @@ public class MLPNet extends Network{
 			for (int j = 0; j < this.numOutputs; j++){
 				this.output[j].activate(inputs);
 				finalOut[j] = this.output[j].getOutput();				
-				if(finalOut[j] > 0.65)
+				if(finalOut[j] > 0.75)
 					out = 1.0;
 				else
 					out = 0.0;					

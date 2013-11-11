@@ -15,9 +15,13 @@ public class DETrainingStrategy implements ITrainingStrategy {
 	private double fitPrime;
 	
 	private Random rnd = new Random();
-
+	
+	public DETrainingStrategy(){
+		
+	}
+	
 	@Override
-	public void train(Network net, double[][] trainSet, int numSamples, int epochs, char[] classes) 
+	public void train(MLPNet net, double[][] trainSet, int numSamples, int epochs, char[] classes) 
 	{	
 		// Initialize population and chromosome sizes
 		chrom_len = (net.numLayers * net.numNodes + net.numOutputs) * net.numInputs;		
@@ -60,7 +64,7 @@ public class DETrainingStrategy implements ITrainingStrategy {
 		net.setWeights(pop[max]);		
 	}
 	
-	private double fitness(Network net, double[] chrom, double[][] trainSet, int numSamples, char[] classes){		
+	private double fitness(MLPNet net, double[] chrom, double[][] trainSet, int numSamples, char[] classes){		
 		net.setWeights(chrom);
 		return net.test(trainSet, numSamples, classes);
 	}
