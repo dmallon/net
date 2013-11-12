@@ -1,7 +1,19 @@
 package neuralNet;
 
 
-public class MLPNet extends Network{	
+public class MLPNet{	
+	protected int numInputs;
+	protected int numLayers;
+	protected int numOutputs;
+	protected int numNodes;
+	protected char classifier;
+	
+	protected double rate;
+	
+	protected Neuron[] output;
+	protected Neuron[][] hidden;
+	
+	protected ITrainingStrategy trainingStrategy;
 	
 	MLPNet(int inputs, int layers, int outputs, double rate, char classifier){	
 		this.numInputs = inputs;
@@ -10,6 +22,7 @@ public class MLPNet extends Network{
 		this.numNodes = inputs;
 		this.rate = rate;
 		this.classifier = classifier;
+		this.trainingStrategy = null;
 		
 		this.hidden = new Neuron[this.numNodes][this.numLayers];
 		this.output = new Neuron[this.numOutputs];
@@ -92,7 +105,7 @@ public class MLPNet extends Network{
 		
 		for (int i = 0; i < numSamples; i++){
 			for (int j = 0; j < numInputs; j++){
-				firstIn[j] = trainSet[i][j];
+				firstIn[j] = trainSet[j][i];
 			}
 			
 			// Hidden layers
@@ -112,9 +125,8 @@ public class MLPNet extends Network{
 			// Output layer (and calculate output delta)
 			for (int j = 0; j < this.numOutputs; j++){
 				this.output[j].activate(inputs);
-				finalOut[j] = this.output[j].getOutput();
-				System.out.println(finalOut[j]);
-				if(finalOut[j] > 0.65)
+				finalOut[j] = this.output[j].getOutput();				
+				if(finalOut[j] > 0.75)
 					out = 1.0;
 				else
 					out = 0.0;					
@@ -124,8 +136,23 @@ public class MLPNet extends Network{
 			else if (out == 1.0 && this.classifier != classes[i])
 				incorrect++;		
 		}
-		fitness = ((double)incorrect)/((double)numSamples);
+		fitness = 1.0 - ((double)incorrect)/((double)numSamples);
 		return fitness;
+	}
+	
+	public void setWeights(double[] chrom){
+		int c = 0;
+		for (int i = 0; i < this.numLayers; i++){
+			for (int j = 0; j < this.numNodes; j++){
+				for (int k = 0; k < this.numInputs; k++){
+					this.hidden[j][i].setWeight(k, chrom[c]);
+					c++;
+				}
+			}
+		}
+		for (int i = 0; i < this.numInputs; i++){
+			this.output[0].setWeight(i, chrom[c]);
+		}
 	}
 
 	public ITrainingStrategy getTrainingStrategy() {

@@ -2,13 +2,13 @@ package neuralNet;
 
 public class TrainingThread extends Thread{
 /*** Setup requirements for multithreading the training process **************/	
-	Network net;
+	MLPNet net;
 	double[][] trainSet;
 	int numSamples;
 	int epochs;
 	char[] classes;
 	
-	public TrainingThread(Network net, double[][] trainSet, int numSamples, int epochs, char[] classes){
+	public TrainingThread(MLPNet net, double[][] trainSet, int numSamples, int epochs, char[] classes){
 		this.net = net;
 		this.trainSet = trainSet;
 		this.numSamples = numSamples;

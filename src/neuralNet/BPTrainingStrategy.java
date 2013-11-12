@@ -3,7 +3,7 @@ package neuralNet;
 public class BPTrainingStrategy implements ITrainingStrategy {
 
 	@Override
-	public void train(Network net, double[][] trainSet, int numSamples, int epochs, char[] classes) {
+	public void train(MLPNet net, double[][] trainSet, int numSamples, int epochs, char[] classes) {
 		double expected;
 		double[] firstIn = new double[net.numInputs];
 		double[] inputs = new double[net.numNodes];
