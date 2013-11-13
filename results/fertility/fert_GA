@@ -1,0 +1,16 @@
+Enter the number of hidden layers: 
+2
+Enter number of training epochs: 
+2500
+Enter number of samples: 
+50
+Enter a value for n: 
+9
+Enter a training algorithm: 
+1. Backpropagation
+2. Genetic Algorithm
+3. Evolutionary Strategy
+4. Differential Evolution
+2
+Correct: 43, Error: 10, Failed to Class: 4
+Percent incorrect: 24.561403508771928%

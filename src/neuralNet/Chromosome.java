@@ -9,8 +9,8 @@ public class Chromosome implements Comparable<Chromosome>{
 	double mutateProb = 0.5;
 	double crossOverProb = 0.5;
 	double initRange = 0.3;
-	double maxMutateStepSize = 0.25;
-	double maxMutateStrategyParamsSize = .001;
+	double maxMutateStepSize = 0.3;
+	double maxMutateStrategyParamsSize = 0.001;
 	int crossOverPoint;
 	static int size;
 	private double fitness;
@@ -49,7 +49,7 @@ public class Chromosome implements Comparable<Chromosome>{
 		Chromosome child = new Chromosome();
 		System.arraycopy(this.chromosome, 0, child.chromosome, 0, size);
 		
-		for (int i = 0, j = size; i < size -1; i++, j++) {
+		for (int i = 0, j = i+1; i < size -1; i++, j++) {
 			child.chromosome[i] = mate.chromosome[i];
 			child.chromosome[j] = this.chromosome[j];
 		}

@@ -12,10 +12,10 @@ public class NeuralNet{
 		int trainingStrategy, inputs, samples, epochs, correct, error, fail;
 	
 		int outputs = 1;
-		int layers = 0;
-		int numClasses = 2;
-		double rate = 0.01;
-		boolean classFirst = false;
+		int layers = 1;
+		int numClasses = 3;
+		double rate = 0.001;
+		boolean classFirst = true;
 		
 		int numThreads;
 		
@@ -75,9 +75,14 @@ public class NeuralNet{
 		//////// Hardcode filename for now
 		//fileName1 = "data/wine.data";
 		//fileName1 = "data/voting-record.data";
-		fileName1 = "data/tic-tac-toe.data";
-		//fileName1 = "data/poker-hand.data";
+		//fileName1 = "data/transfusion.data";
+		//fileName1 = "data/tic-tac-toe.data";
+		//fileName1 = "data/mammogram.data";
+		//fileName1 = "data/liver.data";
 		//fileName1 = "data/iris.data";
+		//fileName1 = "data/fertility.data";
+		//fileName1 = "data/banknote-auth.data";
+		fileName1 = "data/balance-scale.data";
 		////////
 
 		file1 = new File(fileName1);

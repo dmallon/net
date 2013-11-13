@@ -1,25 +1,22 @@
 package neuralNet;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 public class ESTrainingStrategy implements ITrainingStrategy {
-
-	private int pop_size = 30;
+	// Initialize strategy parameters
+	private int pop_size = 100;
 	private Chromosome[] pop;
-	private int offspring_size = 15;
+	private int offspring_size = 50;
 	private Chromosome[] offspring;
-	private double mut_rate = 0.5;
-	private double cross_prob= 0.5;
-	private double fitPrime;
 	private Random rnd = new Random();
 	
+	// Constructor
 	public ESTrainingStrategy(){
 		 offspring = new Chromosome[offspring_size];
 	}
 	
+	// MLPN training function using the ES algorithm
 	@Override
 	public void train(MLPNet net, double[][] trainSet, int numSamples, int epochs, char[] classes) 
 	{	
@@ -81,6 +78,7 @@ public class ESTrainingStrategy implements ITrainingStrategy {
 		net.setWeights(pop[0].chromosome);		
 	}
 	
+	// Calculate the fitness of a single chromosome
 	private double fitness(MLPNet net, double[] chrom, double[][] trainSet, int numSamples, char[] classes){		
 		net.setWeights(chrom);
 		return net.test(trainSet, numSamples, classes);

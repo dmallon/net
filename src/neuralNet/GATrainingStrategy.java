@@ -1,18 +1,13 @@
 package neuralNet;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class GATrainingStrategy implements ITrainingStrategy {
 
-	private int pop_size = 30;
+	private int pop_size = 100;
 	private Chromosome[] pop;
 	
-	private double mut_rate = 0.5;
-	private double cross_prob= 0.5;
-	private double fitPrime;
 	private Chromosome bestParents[];
-	private Random rnd = new Random();
 	public GATrainingStrategy(){
 		
 	}
