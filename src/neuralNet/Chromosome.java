@@ -34,7 +34,7 @@ public class Chromosome implements Comparable<Chromosome>{
 		// Initialize chromosome with random values
 		Random r = new Random();
 		for (int i = 0; i < chromosome.length; i++) {
-			this.chromosome[i] = -initRange + (2 * initRange) * r.nextDouble();
+			this.chromosome[i] = -initRange + (2 * initRange * r.nextDouble());
 		}
 	}
 	
@@ -133,8 +133,8 @@ public class Chromosome implements Comparable<Chromosome>{
 
 	@Override
 	public int compareTo(Chromosome c) {
-		return this.fitness > c.fitness ? -1
-			 : this.fitness < c.fitness ? 1
+		return this.fitness < c.fitness ? 1
+			 : this.fitness > c.fitness ? -1
 		     : 0;
 	}
 	

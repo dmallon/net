@@ -73,7 +73,11 @@ public class NeuralNet{
 		//fileName1 = keyscan.next();
 		
 		//////// Hardcode filename for now
-		fileName1 = "data/wine.data";
+		//fileName1 = "data/wine.data";
+		fileName1 = "data/voting-record.data";
+		//fileName1 = "data/tic-tac-toe.data";
+		//fileName1 = "data/poker-hand.data";
+		//fileName1 = "data/iris.data";
 		////////
 
 		file1 = new File(fileName1);

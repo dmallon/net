@@ -13,7 +13,6 @@ public class GATrainingStrategy implements ITrainingStrategy {
 	private double fitPrime;
 	private Chromosome bestParents[];
 	private Random rnd = new Random();
-	
 	public GATrainingStrategy(){
 		
 	}
