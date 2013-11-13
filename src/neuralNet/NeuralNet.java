@@ -13,9 +13,9 @@ public class NeuralNet{
 	
 		int outputs = 1;
 		int layers = 0;
-		int numClasses = 3;
+		int numClasses = 2;
 		double rate = 0.01;
-		boolean classFirst = true;
+		boolean classFirst = false;
 		
 		int numThreads;
 		
@@ -74,8 +74,8 @@ public class NeuralNet{
 		
 		//////// Hardcode filename for now
 		//fileName1 = "data/wine.data";
-		fileName1 = "data/voting-record.data";
-		//fileName1 = "data/tic-tac-toe.data";
+		//fileName1 = "data/voting-record.data";
+		fileName1 = "data/tic-tac-toe.data";
 		//fileName1 = "data/poker-hand.data";
 		//fileName1 = "data/iris.data";
 		////////
