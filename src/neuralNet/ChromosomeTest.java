@@ -8,11 +8,21 @@ public class ChromosomeTest {
 
 	@Test
 	public void test() {
-		Chromosome c = new Chromosome(20);
+		
+		Chromosome.size = 30;
+		Chromosome c = new Chromosome();
+		Chromosome c2 = new Chromosome();
+		Chromosome c3 = new Chromosome();
+		
+		Chromosome[] crossover_array = {c, c2, c3};
+		Chromosome child = Chromosome.crossover(crossover_array, Chromosome.size);
+		
 		c.print();
-		Chromosome c2 = new Chromosome(20);
 		c2.print();
-		c.crossover(c2).print();
+		c3.print();
+		
+		child.print();
+		
 	}
 
 }

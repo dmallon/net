@@ -6,13 +6,12 @@ import java.util.Random;
 public class GATrainingStrategy implements ITrainingStrategy {
 
 	private int pop_size = 30;
-	private int chrom_len;
 	private Chromosome[] pop;
 	
 	private double mut_rate = 0.5;
 	private double cross_prob= 0.5;
 	private double fitPrime;
-	
+	private Chromosome bestParents[];
 	private Random rnd = new Random();
 	
 	public GATrainingStrategy(){
@@ -23,12 +22,12 @@ public class GATrainingStrategy implements ITrainingStrategy {
 	public void train(MLPNet net, double[][] trainSet, int numSamples, int epochs, char[] classes) 
 	{	
 		// Initialize population and chromosome sizes
-		chrom_len = (net.numLayers * net.numNodes + net.numOutputs) * net.numInputs;
+		Chromosome.size = (net.numLayers * net.numNodes + net.numOutputs) * net.numInputs;
 		pop = new Chromosome[this.pop_size];
 		
 		// Fill population with random weights
 		for (int i = 0; i < pop_size; i++){
-			pop[i] = new Chromosome(chrom_len);
+			pop[i] = new Chromosome();
 		}
 		
 		// Calculate fitness of each chromosome
@@ -44,7 +43,7 @@ public class GATrainingStrategy implements ITrainingStrategy {
 				
 				// Select two best-fit parents
 				Arrays.sort(pop);
-				Chromosome bestParents[] = {this.pop[0], this.pop[1]};
+				bestParents = new Chromosome[]{this.pop[0], this.pop[1]};
 				
 				// Perform crossover and mutation on the two best-fit parents
 				Chromosome child = bestParents[0].crossover(bestParents[1]).mutate();
