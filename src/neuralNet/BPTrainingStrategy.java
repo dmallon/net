@@ -15,7 +15,7 @@ public class BPTrainingStrategy implements ITrainingStrategy {
 		
 		while (a < epochs){
 			for (int i = 0; i < numSamples; i++){
-				net.rate = (net.rate / 1.000001);
+				//net.rate = (net.rate / 1.000001);
 				
 				for (int j = 0; j < net.numInputs; j++){
 					firstIn[j] = trainSet[j][i];

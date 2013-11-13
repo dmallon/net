@@ -3,14 +3,15 @@ package neuralNet;
 import java.util.Random;
 
 public class DETrainingStrategy implements ITrainingStrategy {
-	private int pop_size = 30;
+	private int pop_size = 100;
 	private int chrom_len;
+	private double initRange = 0.3;
 	private double[][] pop;
 	private double[] fit;
 	private double[] trial_vect;
 	private double[] xPrime;
 	
-	private double mut_rate = 0.5;
+	private double mut_rate = 0.3;
 	private double cross_prob= 0.5;
 	private double fitPrime;
 	
@@ -33,7 +34,7 @@ public class DETrainingStrategy implements ITrainingStrategy {
 		// Fill population with random weights
 		for (int i = 0; i < pop_size; i++){
 			for (int j = 0; j < chrom_len; j++){
-				pop[i][j] = (rnd.nextDouble() * 0.6) - 0.3;
+				pop[i][j] = -initRange + (2 * initRange * rnd.nextDouble());
 			}
 		}
 		
