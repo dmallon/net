@@ -1,5 +1,6 @@
 package neuralNet;
 
+// Thread implementation for network testing
 public class TestThread extends Thread{
 /*** Setup requirements for multithreading the testing process **************/	
 	MLPNet[] nets;
@@ -9,6 +10,7 @@ public class TestThread extends Thread{
 	int numClasses;
 	int[] results;
 	
+	// Thread constructor
 	public TestThread(MLPNet[] nets, double[][] trainSet, char[] expected, int index, int numClasses){
 		this.nets = nets;
 		this.trainSet = trainSet;
@@ -17,9 +19,11 @@ public class TestThread extends Thread{
 		this.results = new int[3];
 		this.expected = expected;
 	}
+	// Run function activates the thread
 	public void run(){
 		int out;
 		int responses = this.numClasses;
+		// Run the test set through the network and cacluate error
 		for(int i = 0; i < numClasses; i++){
 			out = this.nets[i].process(this.trainSet, this.index);
 			if(out != '!'){
@@ -41,6 +45,7 @@ public class TestThread extends Thread{
 		}
 			
 	}
+	// Return the results from the finished thread
 	public int[] getResult(){
 		return this.results;
 	}

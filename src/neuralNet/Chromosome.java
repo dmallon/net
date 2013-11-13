@@ -3,6 +3,7 @@ package neuralNet;
 import java.util.Arrays;
 import java.util.Random;
 
+// Generic chromosome implementation for use in GA and ES
 public class Chromosome implements Comparable<Chromosome>{
 	
 	double[] chromosome;
@@ -15,7 +16,7 @@ public class Chromosome implements Comparable<Chromosome>{
 	static int size;
 	private double fitness;
 	
-	
+	// Getter/setter for chromosome fitness measure
 	public double getFitness() {
 		return fitness;
 	}
@@ -25,7 +26,7 @@ public class Chromosome implements Comparable<Chromosome>{
 		this.fitness = fitness;
 	}
 
-
+	// Constructor for new chromosome
 	public Chromosome(){
 		
 		this.chromosome = new double[size];
@@ -111,7 +112,7 @@ public class Chromosome implements Comparable<Chromosome>{
 		return mutant;
 	}
 	
-	
+	// Mutate strategy params for ES
 	public Chromosome mutateStrategyParams(){
 		Random r = new Random();
 		this.crossOverProb += -maxMutateStrategyParamsSize + (2 * maxMutateStrategyParamsSize) * r.nextDouble();
@@ -120,7 +121,7 @@ public class Chromosome implements Comparable<Chromosome>{
 		return this;
 	}
 	
-	
+	// Print out the contents of the chromosome
 	public void print(){
 		
 		for (int i = 0; i < chromosome.length; i++) {
@@ -130,7 +131,7 @@ public class Chromosome implements Comparable<Chromosome>{
 	}
 
 
-
+	// Implements compareTo for use in Arrays.sort()
 	@Override
 	public int compareTo(Chromosome c) {
 		return this.fitness < c.fitness ? 1

@@ -2,6 +2,7 @@ package neuralNet;
 
 import java.util.Arrays;
 
+// Implements training strategy for generic Genetic Algorithm
 public class GATrainingStrategy implements ITrainingStrategy {
 
 	private int pop_size = 100;
@@ -12,6 +13,7 @@ public class GATrainingStrategy implements ITrainingStrategy {
 		
 	}
 	
+	// MLPNN training function using GA algorithm
 	@Override
 	public void train(MLPNet net, double[][] trainSet, int numSamples, int epochs, char[] classes) 
 	{	
@@ -55,6 +57,7 @@ public class GATrainingStrategy implements ITrainingStrategy {
 		net.setWeights(pop[0].chromosome);		
 	}
 	
+	// Returns fitness of current chromosome applied to the network
 	private double fitness(MLPNet net, double[] chrom, double[][] trainSet, int numSamples, char[] classes){		
 		net.setWeights(chrom);
 		return net.test(trainSet, numSamples, classes);

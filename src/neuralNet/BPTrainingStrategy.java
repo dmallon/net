@@ -1,7 +1,9 @@
 package neuralNet;
 
+// Training strategy for traditional Backpropagation
 public class BPTrainingStrategy implements ITrainingStrategy {
 
+	// MLPNN Training method that uses BP algorithm
 	@Override
 	public void train(MLPNet net, double[][] trainSet, int numSamples, int epochs, char[] classes) {
 		double expected;
@@ -12,21 +14,23 @@ public class BPTrainingStrategy implements ITrainingStrategy {
 		double sum;
 		
 		int a = 0;
-		
+		// Loop for all epochs
 		while (a < epochs){
+			// Loop through all samples
 			for (int i = 0; i < numSamples; i++){
-				//net.rate = (net.rate / 1.000001);
 				
+				// Get the input from the current training vector
 				for (int j = 0; j < net.numInputs; j++){
 					firstIn[j] = trainSet[j][i];
 				}
 				
+				// Check the expected output
 				if(net.classifier == classes[i])
 					expected = 1.0;
 				else
 					expected = 0.0;
 				
-				// Hidden layers
+				// Activate hidden layers
 				for (int j = 0; j < net.numLayers; j++){
 					for (int k = 0; k < net.numNodes; k++){
 						if(j == 0)
@@ -40,14 +44,14 @@ public class BPTrainingStrategy implements ITrainingStrategy {
 					}
 				}
 				
-				// Output layer (and calculate output delta)
+				// Activate Output layer (and calculate output delta)
 				for (int j = 0; j < net.numOutputs; j++){
 					net.output[j].activate(inputs);
 					finalOut[j] = net.output[j].getOutput();
 					net.output[j].setDelta(finalOut[j] - expected);
 				}
 				
-				// Begin back-propagation of delta					
+				// Begin back-propagation of delta at Output nodes				
 				for (int j = 0; j < net.numNodes; j++){
 					sum = 0.0;
 					for (int k = 0; k < net.numOutputs; k++){
@@ -55,7 +59,7 @@ public class BPTrainingStrategy implements ITrainingStrategy {
 					}
 					net.hidden[j][net.numLayers - 1].setDelta(net.hidden[j][net.numLayers - 1].getDerivative() * sum);
 				}			
-							
+				// Backprop through hidden nodes			
 				for (int j = net.numLayers - 2; j >= 0; j--){
 					for(int k = 0; k < net.numNodes; k++){
 						sum = 0.0;
@@ -79,7 +83,8 @@ public class BPTrainingStrategy implements ITrainingStrategy {
 				}
 				
 				Neuron n;
-				double wPrime;				
+				double wPrime;
+				// Set the weights for the hidden layers
 				for (int j = 0; j < net.numLayers; j++){
 					if(j == 0){
 						for (int k = 0; k < net.numInputs; k++){
@@ -106,7 +111,7 @@ public class BPTrainingStrategy implements ITrainingStrategy {
 						}
 					}
 				}
-				
+				// Set the weights for the output layer
 				for (int j = 0; j < net.numOutputs; j++){
 					n = net.output[j];
 					for (int k = 0; k < net.numNodes; k++){
@@ -114,8 +119,9 @@ public class BPTrainingStrategy implements ITrainingStrategy {
 						n.setWeight(k, wPrime);
 					}
 				}
-				
+				// Increment epoch counter
 				a++;
+				// Exit loop if number of epochs has been reached
 				if(a == epochs)
 					break;
 			}

@@ -2,6 +2,7 @@ package neuralNet;
 
 import java.util.Random;
 
+// Implements training strategy for Differential Evolution
 public class DETrainingStrategy implements ITrainingStrategy {
 	private int pop_size = 100;
 	private int chrom_len;
@@ -17,10 +18,12 @@ public class DETrainingStrategy implements ITrainingStrategy {
 	
 	private Random rnd = new Random();
 	
+	// Constructor
 	public DETrainingStrategy(){
 		
 	}
 	
+	// MLPNN training function using DE
 	@Override
 	public void train(MLPNet net, double[][] trainSet, int numSamples, int epochs, char[] classes) 
 	{	
@@ -50,6 +53,7 @@ public class DETrainingStrategy implements ITrainingStrategy {
 				this.mutate();
 				this.crossover(pop[i]);
 				fitPrime = this.fitness(net, xPrime, trainSet, numSamples, classes);
+				// Keep the most fit of out of the current chrom and the training vect
 				if( fitPrime > fit[i]){
 					System.arraycopy(xPrime, 0, pop[i], 0, chrom_len);
 					fit[i] = fitPrime;
@@ -57,6 +61,7 @@ public class DETrainingStrategy implements ITrainingStrategy {
 			}
 			t++;
 		}
+		// Get the final most-fit chromosome to feed to the network
 		int max = 0;
 		for (int i = 1; i < pop_size; i++){
 			if(fit[i] > fit[max])
@@ -65,30 +70,39 @@ public class DETrainingStrategy implements ITrainingStrategy {
 		net.setWeights(pop[max]);		
 	}
 	
+	// Returns the fitness of the current chromosome when applied to the MLPNN and tested
 	private double fitness(MLPNet net, double[] chrom, double[][] trainSet, int numSamples, char[] classes){		
+		// Apply the chrom to the network
 		net.setWeights(chrom);
+		// Run through the test set to generate error
 		return net.test(trainSet, numSamples, classes);
 	}
 	
+	// Mutation operator for DE
 	private void mutate(){
 		int i2, i3;
 		double[] x1 = new double[chrom_len];
-
+		
+		// Create a random trial vector
 		for (int i = 0; i < chrom_len; i++){
 			x1[i] = (rnd.nextDouble() * 0.6) - 0.3;
 		}
 		
+		// Select two random vectors from population that are not equal
 		do{
 			i2 = rnd.nextInt(pop_size);
 			i3 = rnd.nextInt(pop_size);
 		}while(i2 == i3);
 		
+		// Mutate the trial vector
 		for (int i = 0; i < chrom_len; i++){
 			trial_vect[i] = x1[i] + mut_rate*(pop[i2][i] - pop[i3][i]);
 		}		
 	}
 	
+	// Crossover operator
 	private void crossover(double[] chrom){
+		// Apply uniform crossover with probability mask
 		for (int i = 0; i < chrom_len; i++){
 			if(rnd.nextDouble() > cross_prob){
 				xPrime[i] = trial_vect[i];

@@ -9,6 +9,7 @@ public class NeuralNet{
 	
 //// Main Program Entry	////
 	public static void main(String[] args) throws IOException, InterruptedException {
+		// Initialize all parameters for setting up the MLP dynamically
 		int trainingStrategy, inputs, samples, epochs, correct, error, fail;
 	
 		int outputs = 1;
@@ -47,8 +48,7 @@ public class NeuralNet{
 		
 		keyscan = new Scanner(System.in);
 		
-	
-		
+	// Take user input to set layers, epochs, samples, n, and training algorithm dynamically
 		System.out.println("Enter the number of hidden layers: ");
 		layers = keyscan.nextInt();
 		
@@ -69,10 +69,7 @@ public class NeuralNet{
 		System.out.println("4. Differential Evolution");
 		trainingStrategy = keyscan.nextInt();
 		
-		//System.out.println("Enter input file name: ");
-		//fileName1 = keyscan.next();
-		
-		//////// Hardcode filename for now
+		//////// Hardcoded filename
 		//fileName1 = "data/wine.data";
 		//fileName1 = "data/voting-record.data";
 		//fileName1 = "data/transfusion.data";
@@ -138,7 +135,7 @@ public class NeuralNet{
 		int t = 0;		
 		for (int i = 0; i < numClasses; i++){
 			net[i] = new MLPNet(inputs, layers, outputs, rate, classes[i]);
-			
+			// Set the training algorithm using strategy pattern
 			if(trainingStrategy == 1)
 				net[i].setTrainingStrategy(new BPTrainingStrategy());
 			
@@ -151,7 +148,7 @@ public class NeuralNet{
 			else if(trainingStrategy == 4)
 				net[i].setTrainingStrategy(new DETrainingStrategy());
 			
-			
+			// Create the training threads and run them
 			trainThreads[t] = new TrainingThread(net[i], set1, samples, epochs, expected1);
 			trainThreads[t].start();
 			
@@ -166,7 +163,7 @@ public class NeuralNet{
 				t++;
 		}
 		
-		// Make sure last batch of threads finished before moving on
+		// Make sure last batch of threads finished and joined before evaluating the nets
 		for (TrainingThread thread : trainThreads) {
 			  thread.join();
 		}
@@ -174,13 +171,12 @@ public class NeuralNet{
 		// Begin testing phase ///////////////////////////////////////
 		correct = error = fail = 0;		
 		
-		// Check each test vector against each class network
-		
+		// Check each test vector against each class network		
 		testThreads = new TestThread[numThreads];
 		t = 0;
 		int[] result = new int[3];
 		for (int a = 0; a < samples; a++){	
-			
+			// Generate and run the test threads
 			testThreads[t] = new TestThread(net, set2, expected2, a, numClasses);
 			testThreads[t].start();
 			
