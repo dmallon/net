@@ -1,5 +1,6 @@
 package neuralNet;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Chromosome implements Comparable<Chromosome>{
@@ -8,9 +9,10 @@ public class Chromosome implements Comparable<Chromosome>{
 	double mutateProb = 0.5;
 	double crossOverProb = 0.5;
 	double initRange = 0.3;
-	double maxMutateStepSize = 0.3;
+	double maxMutateStepSize = 0.25;
+	double maxMutateStrategyParamsSize = .001;
 	int crossOverPoint;
-	int size;
+	static int size;
 	private double fitness;
 	
 	
@@ -24,8 +26,7 @@ public class Chromosome implements Comparable<Chromosome>{
 	}
 
 
-	public Chromosome(int size){
-		this.size = size;
+	public Chromosome(){
 		
 		this.chromosome = new double[size];
 		this.crossOverPoint = (int) size/2;
@@ -39,22 +40,45 @@ public class Chromosome implements Comparable<Chromosome>{
 	
 	
 	/**
-	 * 
-	 * @param chromosome The chromosome to be used in conjunction for crossover 
+	 * This crossover should be used with Genetic Algorithm to produce a recombined child from two parents.
+	 * @param mates The other parent to be used as crossover mate.
 	 * @return Chromosome The child chromosome with crossover applied.
 	 */
-	public Chromosome crossover(Chromosome chromosome){
+	public Chromosome crossover(Chromosome mate){
 		
-		Chromosome child = new Chromosome(this.size);
-		System.arraycopy(this.chromosome, 0, child.chromosome, 0, this.size);
+		Chromosome child = new Chromosome();
+		System.arraycopy(this.chromosome, 0, child.chromosome, 0, size);
 		
-		for (int i = 0, j = this.size/2; i < this.size/2 -1; i++, j++) {
-			child.chromosome[i] = chromosome.chromosome[i];
+		for (int i = 0, j = size; i < size -1; i++, j++) {
+			child.chromosome[i] = mate.chromosome[i];
 			child.chromosome[j] = this.chromosome[j];
 		}
 		
 		return child;
 	}
+	
+	
+	/**
+	 * This crossover method should be used for Evolutionary Strategies Algorithm to produce a recombined child from multiple parents.
+	 * @param mates The parent chromosomes to be used in the crossover to produce the child.
+	 * @return Chromosome The child chromosome with crossover applied.
+	 */
+	public static Chromosome crossover(Chromosome[] mates){
+		
+		Chromosome child = new Chromosome();
+		
+		for (int i = 0; i < mates.length; i++) {
+			int start = size/mates.length * i;
+			int end = start + size/mates.length;
+			
+			double[] slice = Arrays.copyOfRange(mates[i].chromosome, start, end);
+		
+			System.arraycopy(slice, 0, child.chromosome, start, slice.length);
+		}
+		
+		return child;
+	}
+
 
 	/**
 	 * 
@@ -62,8 +86,8 @@ public class Chromosome implements Comparable<Chromosome>{
 	 */
 	public Chromosome mutate(){
 		
-		Chromosome mutant = new Chromosome(this.size);
-		System.arraycopy(this.chromosome, 0, mutant.chromosome, 0, this.size);
+		Chromosome mutant = new Chromosome();
+		System.arraycopy(this.chromosome, 0, mutant.chromosome, 0, size);
 		
 		int[] indices = new int[(int) (mutant.chromosome.length * mutateProb)];
 		int oldI = -1;
@@ -85,6 +109,15 @@ public class Chromosome implements Comparable<Chromosome>{
 		}
 		
 		return mutant;
+	}
+	
+	
+	public Chromosome mutateStrategyParams(){
+		Random r = new Random();
+		this.crossOverProb += -maxMutateStrategyParamsSize + (2 * maxMutateStrategyParamsSize) * r.nextDouble();
+		this.mutateProb += -maxMutateStrategyParamsSize + (2 * maxMutateStrategyParamsSize) * r.nextDouble();
+		
+		return this;
 	}
 	
 	
