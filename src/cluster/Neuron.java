@@ -1,4 +1,4 @@
-package neuralNet;
+package cluster;
 
 import java.util.Random;
 
