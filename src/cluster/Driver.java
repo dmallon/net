@@ -10,9 +10,11 @@ public class Driver{
 //// Main Program Entry	////
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// Initialize all parameters
-		int inputs, samples, epochs, correct, error, fail;
-	
+		int inputs, samples, correct, error, fail, algorithm;
+		
+		int epochs = 0;	
 		int layers = 1;
+		
 		int numClasses = 3;
 		double rate = 0.001;
 		
@@ -24,27 +26,35 @@ public class Driver{
 		char[] expected2;
 		char[] classes;
 		
-		double[][] set1;
-		double[][] set2;
+		double[][] trainSet;
+		double[][] testSet;
 		
 		String fileName1;
 		
 		Scanner keyscan;
 		Scanner filescan1;
 		
-		CompNet net;
-		
 		File file1;
 		
 		keyscan = new Scanner(System.in);
 		
 	// Take user input to set layers, epochs, samples, n, and training algorithm dynamically
-		System.out.println("Enter the number of hidden layers: ");
-		layers = keyscan.nextInt();
+		System.out.println("Select clustering algorithm: ");
+		System.out.println("1. Competitive Neural Net");
+		System.out.println("2. K-Means");
+		System.out.println("3. DB-Scan");
+		System.out.println("4. ASO");
+		System.out.println("5. PSO");
+		algorithm = keyscan.nextInt();
 		
+		if(algorithm == 1){
+			System.out.println("Enter the number of hidden layers: ");
+			layers = keyscan.nextInt();		
+			
+			System.out.println("Enter number of training epochs: ");
+			epochs = keyscan.nextInt();
+		}
 		
-		System.out.println("Enter number of training epochs: ");
-		epochs = keyscan.nextInt();
 		
 		System.out.println("Enter number of samples: ");
 		samples = keyscan.nextInt();
@@ -70,8 +80,8 @@ public class Driver{
 		filescan1 = new Scanner(file1);
 		filescan1.useDelimiter(",|\\n|\\r\\n");
 		
-		set1 = new double[inputs][samples];
-		set2 = new double[inputs][samples];
+		trainSet = new double[inputs][samples];
+		testSet = new double[inputs][samples];
 		
 		classes = new char[numClasses];
 		
@@ -89,7 +99,7 @@ public class Driver{
 				expected1[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
-				set1[j][i] = Double.parseDouble(filescan1.next().trim());
+				trainSet[j][i] = Double.parseDouble(filescan1.next().trim());
 			}
 			
 			if(!classFirst)
@@ -102,15 +112,29 @@ public class Driver{
 				expected2[i] = filescan1.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
-				set2[j][i] = Double.parseDouble(filescan1.next().trim());
+				testSet[j][i] = Double.parseDouble(filescan1.next().trim());
 			}
 			
 			if(!classFirst)				
 				expected2[i] = filescan1.next().charAt(0);
 		}			
 		
-		// Fill up the thread array with training networks
-		net = new CompNet(inputs, layers, outputs, rate, classes);
+		// Activate the requested algorithm to perform clustering
+		switch(algorithm){
+			case 1:
+				CompNet net = new CompNet(inputs, layers, outputs, rate, classes);
+				net.train(trainSet, samples, epochs, classes);
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5: 
+				break;		
+		}		
+		
 		
 		// Begin testing phase ///////////////////////////////////////
 		correct = error = fail = 0;		

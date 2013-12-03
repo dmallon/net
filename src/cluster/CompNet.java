@@ -44,8 +44,7 @@ public class CompNet{
 
 	
 	// Pass training call to desired strategy
-	public void train(double[][] trainSet, int numSamples, int epochs, char[] classes){
-		double expected;
+	public void train(double[][] trainSet, int numSamples, int epochs, char[] expected){
 		double[] firstIn = new double[this.numInputs];
 		double[] inputs = new double[this.numNodes];
 		double[] outputs = new double[this.numNodes];
@@ -62,12 +61,6 @@ public class CompNet{
 				for (int j = 0; j < this.numInputs; j++){
 					firstIn[j] = trainSet[j][i];
 				}
-				
-				// Check the expected output
-				if(this.classes == classes[i])
-					expected = 1.0;
-				else
-					expected = 0.0;
 				
 				// Activate hidden layers
 				for (int j = 0; j < this.numLayers; j++){
@@ -87,7 +80,7 @@ public class CompNet{
 				for (int j = 0; j < this.numOutputs; j++){
 					this.output[j].activate(inputs);
 					finalOut[j] = this.output[j].getOutput();
-					this.output[j].setDelta(finalOut[j] - expected);
+					//this.output[j].setDelta(finalOut[j]);
 				}
 				
 				// Begin back-propagation of delta at Output nodes				
