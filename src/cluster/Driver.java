@@ -10,29 +10,29 @@ public class Driver{
 //// Main Program Entry	////
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// Initialize all parameters
-		int inputs, samples, correct, error, fail, algorithm, inFile;
+		int inputs, samples, error, algorithm, inFile;
 		
 		int epochs = 0;	
 		int layers = 1;
 		
 		int numClasses = 3;
-		double rate = 0.001;
+		double rate = 0.01;
 		
 		boolean classFirst = true;
 		
 		int outputs = numClasses;
 		
-		char[] expected1;
-		char[] expected2;
+		char[] trainExp;
+		char[] testExp;
 		char[] classes;
 		
 		double[][] trainSet;
 		double[][] testSet;
 		
-		String fileName1;
+		String fileName;
 		
 		Scanner keyscan;
-		Scanner filescan1;
+		Scanner filescan;
 		
 		File file1;
 		
@@ -72,97 +72,102 @@ public class Driver{
 		System.out.println("Enter number of samples: ");
 		samples = keyscan.nextInt();
 		
-		System.out.println("Enter a value for n: ");
-		inputs = keyscan.nextInt();
-		
 		switch(inFile){
 			case 1:
-				fileName1 = "data/wine.data";
+				fileName = "data/wine.data";
 				break;
 			case 2:
-				fileName1 = "data/voting-record.data";
+				fileName = "data/voting-record.data";
 				break;
 			case 3:
-				fileName1 = "data/transfusion.data";
+				fileName = "data/transfusion.data";
 				break;
 			case 4:
-				fileName1 = "data/tic-tac-toe.data";
+				fileName = "data/tic-tac-toe.data";
 				break;
 			case 5:
-				fileName1 = "data/mammogram.data";
+				fileName = "data/mammogram.data";
 				break;
 			case 6:
-				fileName1 = "data/liver.data";
+				fileName = "data/liver.data";
 				break;
 			case 7:
-				fileName1 = "data/iris.data";
+				fileName = "data/iris.data";
 				break;
 			case 8:
-				fileName1 = "data/fertility.data";
+				fileName = "data/fertility.data";
 				break;
 			case 9:
-				fileName1 = "data/banknote-auth.data";
+				fileName = "data/banknote-auth.data";
 				break;
 			case 10:
-				fileName1 = "data/balance-scale.data";
+				fileName = "data/balance-scale.data";
 				break;
 			default:
-				fileName1 = "data/wine.data";
+				fileName = "data/wine.data";
 		}
 
-		file1 = new File(fileName1);
+		file1 = new File(fileName);
 		
-		filescan1 = new Scanner(file1);
-		filescan1.useDelimiter(",|\\n|\\r\\n");
+		filescan = new Scanner(file1);
+		filescan.useDelimiter(",|\\n|\\r\\n");
+		
+		//Read value of n from first line
+		inputs = filescan.nextInt();
 		
 		trainSet = new double[inputs][samples];
 		testSet = new double[inputs][samples];
 		
 		classes = new char[numClasses];
 		
-		expected1 = new char[samples];
-		expected2 = new char[samples];
+		trainExp = new char[samples];
+		testExp = new char[samples];
 				
 		// Read in list of possible classes
 		for (int i = 0; i < numClasses; i++){
-			classes[i] = filescan1.next().trim().charAt(0);
+			classes[i] = filescan.next().trim().charAt(0);
 		}
 		
 		// Read in training set vectors
 		for (int i = 0; i < samples; i++){
 			if(classFirst)
-				expected1[i] = filescan1.next().charAt(0);
+				trainExp[i] = filescan.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
-				trainSet[j][i] = Double.parseDouble(filescan1.next().trim());
+				trainSet[j][i] = Double.parseDouble(filescan.next().trim());
 			}
 			
 			if(!classFirst)
-				expected1[i] = filescan1.next().charAt(0);
+				trainExp[i] = filescan.next().charAt(0);
 		}
 		
 		// Read in test set vectors
 		for (int i = 0; i < samples; i++){
 			if(classFirst)				
-				expected2[i] = filescan1.next().charAt(0);
+				testExp[i] = filescan.next().charAt(0);
 			
 			for (int j = 0; j < inputs; j++){
-				testSet[j][i] = Double.parseDouble(filescan1.next().trim());
+				testSet[j][i] = Double.parseDouble(filescan.next().trim());
 			}
 			
 			if(!classFirst)				
-				expected2[i] = filescan1.next().charAt(0);
+				testExp[i] = filescan.next().charAt(0);
 		}			
+		
+		error = 0;
 		
 		// Activate the requested algorithm to perform clustering
 		switch(algorithm){
 			case 1:
 				CompNet net = new CompNet(inputs, layers, outputs, rate, classes);
-				net.train(trainSet, samples, epochs, classes);
+				net.train(trainSet, samples, epochs, trainExp);
+				error = net.process(testSet, samples, testExp);
 				break;
 			case 2:
+				KMeans km = new KMeans();
 				break;
 			case 3:
+				DBScan dbs = new DBScan();
 				break;
 			case 4:
 				break;
@@ -172,16 +177,12 @@ public class Driver{
 		
 		
 		// Begin testing phase ///////////////////////////////////////
-		correct = error = fail = 0;		
-		
-		// Check each test vector against each class network		
-
 		
 		// Output results and final error percentage
-		System.out.println("Correct: " + correct + ", Error: " + error + ", Failed to Class: " + fail);
-		System.out.println("Percent incorrect: " + (((double)(error + fail))/((double)(error + fail + correct)))*100.00 + "%");
+		System.out.println("Errors: " + error);
+		System.out.println("Percent incorrect: " + ((double)error/(double)samples)*100.00 + "%");
 		
-		filescan1.close();
+		filescan.close();
 		keyscan.close();		
 	}
 
