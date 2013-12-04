@@ -10,7 +10,7 @@ public class Driver{
 //// Main Program Entry	////
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// Initialize all parameters
-		int inputs, samples, correct, error, fail, algorithm;
+		int inputs, samples, correct, error, fail, algorithm, inFile;
 		
 		int epochs = 0;	
 		int layers = 1;
@@ -55,6 +55,19 @@ public class Driver{
 			epochs = keyscan.nextInt();
 		}
 		
+		System.out.println("Select input file: ");
+		System.out.println("1. wine.data");
+		System.out.println("2. voting-record.data");
+		System.out.println("3. transfusion.data");
+		System.out.println("4. tic-tac-toe.data");
+		System.out.println("5. mammogram.data");
+		System.out.println("6. liver.data");
+		System.out.println("7. iris.data");
+		System.out.println("8. fertility.data");
+		System.out.println("9. banknote-auth.data");
+		System.out.println("10. balance-scale.data");
+		inFile = keyscan.nextInt();
+		
 		
 		System.out.println("Enter number of samples: ");
 		samples = keyscan.nextInt();
@@ -62,18 +75,40 @@ public class Driver{
 		System.out.println("Enter a value for n: ");
 		inputs = keyscan.nextInt();
 		
-		//////// Hardcoded filename
-		//fileName1 = "data/wine.data";
-		//fileName1 = "data/voting-record.data";
-		//fileName1 = "data/transfusion.data";
-		//fileName1 = "data/tic-tac-toe.data";
-		//fileName1 = "data/mammogram.data";
-		//fileName1 = "data/liver.data";
-		//fileName1 = "data/iris.data";
-		//fileName1 = "data/fertility.data";
-		//fileName1 = "data/banknote-auth.data";
-		fileName1 = "data/balance-scale.data";
-		////////
+		switch(inFile){
+			case 1:
+				fileName1 = "data/wine.data";
+				break;
+			case 2:
+				fileName1 = "data/voting-record.data";
+				break;
+			case 3:
+				fileName1 = "data/transfusion.data";
+				break;
+			case 4:
+				fileName1 = "data/tic-tac-toe.data";
+				break;
+			case 5:
+				fileName1 = "data/mammogram.data";
+				break;
+			case 6:
+				fileName1 = "data/liver.data";
+				break;
+			case 7:
+				fileName1 = "data/iris.data";
+				break;
+			case 8:
+				fileName1 = "data/fertility.data";
+				break;
+			case 9:
+				fileName1 = "data/banknote-auth.data";
+				break;
+			case 10:
+				fileName1 = "data/balance-scale.data";
+				break;
+			default:
+				fileName1 = "data/wine.data";
+		}
 
 		file1 = new File(fileName1);
 		
