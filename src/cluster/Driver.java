@@ -14,12 +14,10 @@ public class Driver{
 		
 		int epochs = 0;	
 		
-		int numClasses = 3;
+		int numClasses;
 		double rate = 0.5;
 		
-		boolean classFirst = true;
-		
-		int outputs = numClasses;
+		boolean classFirst;
 		
 		char[] trainExp;
 		char[] testExp;
@@ -108,7 +106,13 @@ public class Driver{
 		filescan = new Scanner(file1);
 		filescan.useDelimiter(",|\\n|\\r\\n");
 		
-		//Read value of n from first line
+		// Read class position
+		classFirst = filescan.nextBoolean();
+		
+		//Read number of classes from first line
+		numClasses = filescan.nextInt();
+	
+		//Read value of n from second line
 		inputs = filescan.nextInt();
 		
 		trainSet = new double[inputs][samples];
@@ -155,8 +159,8 @@ public class Driver{
 		// Activate the requested algorithm to perform clustering
 		switch(algorithm){
 			case 1:
-				CompNet net = new CompNet(inputs, outputs, rate);
-				net.train(trainSet, samples, epochs, trainExp);
+				CompNet net = new CompNet(inputs, numClasses, rate);
+				net.train(trainSet, samples, epochs);
 				net.process(testSet, samples, testExp);
 				break;
 			case 2:

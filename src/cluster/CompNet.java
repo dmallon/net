@@ -28,7 +28,7 @@ public class CompNet{
 
 	
 	// Pass training call to desired strategy
-	public void train(double[][] trainSet, int numSamples, int epochs, char[] classifier){
+	public void train(double[][] trainSet, int numSamples, int epochs){
 		double[] input = new double[this.numInputs];
 		double[] wPrime = new double[this.numInputs];
 		double maxOutput;
