@@ -13,10 +13,9 @@ public class Driver{
 		int inputs, samples, error, algorithm, inFile;
 		
 		int epochs = 0;	
-		int layers = 1;
 		
 		int numClasses = 3;
-		double rate = 0.01;
+		double rate = 0.5;
 		
 		boolean classFirst = true;
 		
@@ -47,10 +46,7 @@ public class Driver{
 		System.out.println("5. PSO");
 		algorithm = keyscan.nextInt();
 		
-		if(algorithm == 1){
-			System.out.println("Enter the number of hidden layers: ");
-			layers = keyscan.nextInt();		
-			
+		if(algorithm == 1){			
 			System.out.println("Enter number of training epochs: ");
 			epochs = keyscan.nextInt();
 		}
@@ -159,9 +155,9 @@ public class Driver{
 		// Activate the requested algorithm to perform clustering
 		switch(algorithm){
 			case 1:
-				CompNet net = new CompNet(inputs, layers, outputs, rate, classes);
+				CompNet net = new CompNet(inputs, outputs, rate);
 				net.train(trainSet, samples, epochs, trainExp);
-				error = net.process(testSet, samples, testExp);
+				net.process(testSet, samples, testExp);
 				break;
 			case 2:
 				KMeans km = new KMeans();
