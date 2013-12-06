@@ -2,20 +2,18 @@ package cluster;
 
 // Class to define MLPNN structure and functionality
 public class CompNet{	
-	protected int numInputs;
-	protected int numOutputs;
-	protected double threshold = 0.65;
-	
-	protected double rate;
-	
-	protected Neuron[] output;
-	protected Neuron[][] hidden;
+	private int numInputs;
+	private int numOutputs;	
+	private double rate;	
+	private Neuron[] output;	
+	private char[] classes;
 	
 	// Constructor 
-	CompNet(int inputs, int outputs, double rate){	 
+	CompNet(int inputs, int outputs, double rate, char[] classes){	 
 		this.numInputs = inputs;
 		this.numOutputs = outputs;
 		this.rate = rate;
+		this.classes = classes;
 		
 		// Initialize Net structure
 		this.output = new Neuron[this.numOutputs];
@@ -73,10 +71,17 @@ public class CompNet{
 	}
 	
 	// Process to the test set to produce final output
-	public void process(double[][] testSet, int numSamples, char[] classes){
+	public void test(double[][] testSet, int numSamples, char[] classifier){
 		double[] input = new double[this.numInputs];
+		int[][] results = new int[this.numOutputs][this.numOutputs];
 		double maxOutput;
 		int maxIndex;
+		
+		for(int i = 0; i < this.numOutputs; i++){
+			for (int j = 0; j < this.numOutputs; j++){
+				results[i][j] = 0;
+			}
+		}
 		
 		for(int i = 0; i < numSamples; i++){
 			// Get the input from the set
@@ -94,7 +99,19 @@ public class CompNet{
 					maxIndex = j;
 				}
 			}
-			System.out.println(maxIndex + ", " + classes[i]);
+			for(int j = 0; j < this.numOutputs; j++){
+				if(classifier[i] == this.classes[j]){
+					results[maxIndex][j]++;
+				}
+			}
 		}
+		for(int i = 0; i < this.numOutputs; i++){
+			System.out.print("Cluster " + (i + 1) + ": ");
+			for (int j = 0; j < this.numOutputs; j++){
+				System.out.print(results[i][j] + " " + classes[j] + "'s  ");
+			}
+			System.out.println();
+		}
+		
 	}	
 }

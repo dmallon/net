@@ -15,7 +15,7 @@ public class Driver{
 		int epochs = 0;	
 		
 		int numClasses;
-		double rate = 0.5;
+		double rate = 0.01;
 		
 		boolean classFirst;
 		
@@ -159,12 +159,14 @@ public class Driver{
 		// Activate the requested algorithm to perform clustering
 		switch(algorithm){
 			case 1:
-				CompNet net = new CompNet(inputs, numClasses, rate);
+				CompNet net = new CompNet(inputs, numClasses, rate, classes);
 				net.train(trainSet, samples, epochs);
-				net.process(testSet, samples, testExp);
+				net.test(testSet, samples, testExp);
 				break;
 			case 2:
-				KMeans km = new KMeans();
+				KMeans km = new KMeans(inputs, numClasses, classes);
+				km.train(trainSet, samples, trainExp);
+				km.process(testSet, samples, testExp);
 				break;
 			case 3:
 				DBScan dbs = new DBScan();
@@ -174,13 +176,6 @@ public class Driver{
 			case 5: 
 				break;		
 		}		
-		
-		
-		// Begin testing phase ///////////////////////////////////////
-		
-		// Output results and final error percentage
-		System.out.println("Errors: " + error);
-		System.out.println("Percent incorrect: " + ((double)error/(double)samples)*100.00 + "%");
 		
 		filescan.close();
 		keyscan.close();		

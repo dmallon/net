@@ -4,10 +4,10 @@ import java.util.Random;
 
 // Implements a Neuron class used to build a MLPNN
 public class Neuron {
-	protected int numInputs;
-	protected double output = 0.0;
-	protected double[] weight;
-	protected Random rnd;
+	private int numInputs;
+	private double output = 0.0;
+	private double[] weight;
+	private Random rnd;
 	
 	// Constructor
 	Neuron(int numInputs){
