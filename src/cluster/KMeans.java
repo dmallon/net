@@ -17,9 +17,8 @@ public class KMeans {
 		this.centers = new double[this.numClusters][this.numInputs];
 	}
 	
-	public void train(double[][] trainSet, int numSamples, char[] classifier){
+	public void train(double[][] trainSet, int numSamples){
 		double[][] newCenters = new double[this.numClusters][this.numInputs];
-		int[][] results = new int[this.numClusters][this.numClusters];
 		double[] input = new double[this.numInputs];
 		int[] cluster = new int[numSamples];
 		int[] numMembers = new int[this.numClusters];

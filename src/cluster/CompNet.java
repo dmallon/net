@@ -1,5 +1,7 @@
 package cluster;
 
+import java.util.Random;
+
 // Class to define MLPNN structure and functionality
 public class CompNet{	
 	private int numInputs;
@@ -7,6 +9,8 @@ public class CompNet{
 	private double rate;	
 	private Neuron[] output;	
 	private char[] classes;
+	
+	private Random rnd = new Random();
 	
 	// Constructor 
 	CompNet(int inputs, int outputs, double rate, char[] classes){	 
@@ -29,8 +33,18 @@ public class CompNet{
 	public void train(double[][] trainSet, int numSamples, int epochs){
 		double[] input = new double[this.numInputs];
 		double[] wPrime = new double[this.numInputs];
+		double[][] weights = new double[this.numOutputs][this.numInputs];
 		double maxOutput;
 		int maxIndex;
+		int index;
+		
+		for (int i = 0; i < this.numOutputs; i++){
+			index = rnd.nextInt(numSamples);		
+			for(int j = 0; j < this.numInputs; j++){
+				weights[i][j] = trainSet[j][index];
+			}
+			this.output[i].setWeight(weights[i]);
+		}
 		
 		int a = 0;
 		// Loop for all epochs

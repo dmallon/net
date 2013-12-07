@@ -10,12 +10,12 @@ public class Driver{
 //// Main Program Entry	////
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// Initialize all parameters
-		int inputs, samples, error, algorithm, inFile;
+		int numInputs, numSamples, algorithm, inFile;
 		
 		int epochs = 0;	
 		
 		int numClasses;
-		double rate = 0.01;
+		double rate = 0.9;
 		
 		boolean classFirst;
 		
@@ -64,7 +64,7 @@ public class Driver{
 		
 		
 		System.out.println("Enter number of samples: ");
-		samples = keyscan.nextInt();
+		numSamples = keyscan.nextInt();
 		
 		switch(inFile){
 			case 1:
@@ -113,15 +113,15 @@ public class Driver{
 		numClasses = filescan.nextInt();
 	
 		//Read value of n from second line
-		inputs = filescan.nextInt();
+		numInputs = filescan.nextInt();
 		
-		trainSet = new double[inputs][samples];
-		testSet = new double[inputs][samples];
+		trainSet = new double[numInputs][numSamples];
+		testSet = new double[numInputs][numSamples];
 		
 		classes = new char[numClasses];
 		
-		trainExp = new char[samples];
-		testExp = new char[samples];
+		trainExp = new char[numSamples];
+		testExp = new char[numSamples];
 				
 		// Read in list of possible classes
 		for (int i = 0; i < numClasses; i++){
@@ -129,11 +129,11 @@ public class Driver{
 		}
 		
 		// Read in training set vectors
-		for (int i = 0; i < samples; i++){
+		for (int i = 0; i < numSamples; i++){
 			if(classFirst)
 				trainExp[i] = filescan.next().charAt(0);
 			
-			for (int j = 0; j < inputs; j++){
+			for (int j = 0; j < numInputs; j++){
 				trainSet[j][i] = Double.parseDouble(filescan.next().trim());
 			}
 			
@@ -142,11 +142,11 @@ public class Driver{
 		}
 		
 		// Read in test set vectors
-		for (int i = 0; i < samples; i++){
+		for (int i = 0; i < numSamples; i++){
 			if(classFirst)				
 				testExp[i] = filescan.next().charAt(0);
 			
-			for (int j = 0; j < inputs; j++){
+			for (int j = 0; j < numInputs; j++){
 				testSet[j][i] = Double.parseDouble(filescan.next().trim());
 			}
 			
@@ -159,17 +159,17 @@ public class Driver{
 		// Activate the requested algorithm to perform clustering
 		switch(algorithm){
 			case 1:
-				CompNet net = new CompNet(inputs, numClasses, rate, classes);
-				net.train(trainSet, samples, epochs);
-				net.test(testSet, samples, testExp);
+				CompNet net = new CompNet(numInputs, numClasses, rate, classes);
+				net.train(trainSet, numSamples, epochs);
+				net.test(testSet, numSamples, testExp);
 				break;
 			case 2:
-				KMeans km = new KMeans(inputs, numClasses, classes);
-				km.train(trainSet, samples, trainExp);
-				km.process(testSet, samples, testExp);
+				KMeans km = new KMeans(numInputs, numClasses, classes);
+				km.train(trainSet, numSamples);
+				km.process(testSet, numSamples, testExp);
 				break;
 			case 3:
-				DBScan dbs = new DBScan();
+				DBScan dbs = new DBScan(numInputs, classes);
 				break;
 			case 4:
 				break;
