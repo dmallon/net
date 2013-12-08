@@ -154,8 +154,6 @@ public class Driver{
 				testExp[i] = filescan.next().charAt(0);
 		}			
 		
-		error = 0;
-		
 		// Activate the requested algorithm to perform clustering
 		switch(algorithm){
 			case 1:
@@ -169,7 +167,8 @@ public class Driver{
 				km.process(testSet, numSamples, testExp);
 				break;
 			case 3:
-				DBScan dbs = new DBScan(numInputs, classes);
+				DBScan dbs = new DBScan(numInputs, classes, testSet, numSamples);
+				dbs.cluster(testExp);
 				break;
 			case 4:
 				break;
