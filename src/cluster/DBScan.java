@@ -99,6 +99,19 @@ public class DBScan {
 			System.out.print(noisePts[j] + " " + this.classes[j] + "'s  ");
 		}
 		System.out.println();
+		
+		// Calculate the purity for the clustering
+		int sum = 0;
+		int max;
+		for(int i = 0; i < results.size(); i++){
+			max = 0;
+			for (int j = 0; j < this.classes.length; j++){
+				if(results.get(i)[j] > max)
+					max = results.get(i)[j];
+			}
+			sum += max;
+		}
+		System.out.println("Cluster Purity: " + ((double)sum/(double)numSamples));
 	}
 	
 	private void expandCluster(double[] point, ArrayList<Integer> neighbors, int c, int i){

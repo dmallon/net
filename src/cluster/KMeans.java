@@ -130,6 +130,19 @@ public class KMeans {
 			}
 			System.out.println();
 		}
+		
+		// Calculate the purity for the clustering
+				int sum = 0;
+				int max;
+				for(int i = 0; i < this.numClusters; i++){
+					max = 0;
+					for (int j = 0; j < this.numClusters; j++){
+						if(results[i][j] > max)
+							max = results[i][j];
+					}
+					sum += max;
+				}
+				System.out.println("Cluster Purity: " + ((double)sum/(double)numSamples));
 	}
 	
 	private double distance(double[] x1, double[] x2){

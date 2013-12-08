@@ -127,5 +127,18 @@ public class CompNet{
 			System.out.println();
 		}
 		
+		// Calculate the purity for the clustering
+		int sum = 0;
+		int max;
+		for(int i = 0; i < this.numOutputs; i++){
+			max = 0;
+			for (int j = 0; j < this.numOutputs; j++){
+				if(results[i][j] > max)
+					max = results[i][j];
+			}
+			sum += max;
+		}
+		System.out.println("Cluster Purity: " + ((double)sum/(double)numSamples));
+		
 	}	
 }
