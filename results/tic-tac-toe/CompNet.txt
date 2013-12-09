@@ -1,0 +1,24 @@
+Select clustering algorithm: 
+1. Competitive Neural Net
+2. K-Means
+3. DB-Scan
+4. ASO
+5. PSO
+1
+Enter number of training epochs: 
+5000
+Select input file: 
+1. wine.data
+2. voting-record.data
+3. transfusion.data
+4. tic-tac-toe.data
+5. mammogram.data
+6. liver.data
+7. iris.data
+8. fertility.data
+9. banknote-auth.data
+10. balance-scale.data
+4
+Cluster 1: 122 1's  106 0's  
+Cluster 2: 59 1's  13 0's  
+Cluster Purity: 0.6033333333333334
