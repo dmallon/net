@@ -62,10 +62,6 @@ public class Driver{
 		System.out.println("10. balance-scale.data");
 		inFile = keyscan.nextInt();
 		
-		
-		System.out.println("Enter number of samples: ");
-		numSamples = keyscan.nextInt();
-		
 		switch(inFile){
 			case 1:
 				fileName = "data/wine.data";
@@ -106,13 +102,16 @@ public class Driver{
 		filescan = new Scanner(file1);
 		filescan.useDelimiter(",|\\n|\\r\\n");
 		
+		// Read number of samples
+		numSamples = filescan.nextInt();
+		
 		// Read class position
 		classFirst = filescan.nextBoolean();
 		
-		//Read number of classes from first line
+		//Read number of classes
 		numClasses = filescan.nextInt();
 	
-		//Read value of n from second line
+		//Read value of n
 		numInputs = filescan.nextInt();
 		
 		trainSet = new double[numInputs][numSamples];
@@ -156,16 +155,19 @@ public class Driver{
 		
 		// Activate the requested algorithm to perform clustering
 		switch(algorithm){
+			// Competitive Learning Net
 			case 1:
 				CompNet net = new CompNet(numInputs, numClasses, rate, classes);
 				net.train(trainSet, numSamples, epochs);
 				net.test(testSet, numSamples, testExp);
 				break;
+			// K-Means
 			case 2:
 				KMeans km = new KMeans(numInputs, numClasses, classes);
 				km.train(trainSet, numSamples);
 				km.process(testSet, numSamples, testExp);
 				break;
+			// DB-Scan
 			case 3:
 				DBScan dbs = new DBScan(numInputs, classes, testSet, numSamples);
 				dbs.cluster(testExp);
@@ -175,7 +177,7 @@ public class Driver{
 			case 5: 
 				break;		
 		}		
-		
+		// Close the scanners
 		filescan.close();
 		keyscan.close();		
 	}
