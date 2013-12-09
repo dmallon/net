@@ -2,10 +2,11 @@ package cluster;
 
 import java.util.ArrayList;
 
+// The DB-Scan algorithm
 public class DBScan {
-	
-	private int minPts = 50;
-	private double theta = 500.0;
+	// Instance vars
+	private int minPts = 20;
+	private double theta = 3.0;
 	private int numInputs;
 	private char[] classes;
 	private boolean[] visited;
@@ -22,7 +23,9 @@ public class DBScan {
 		this.numSamples = numSamples;
 	}
 	
+	// Method to initiate clustering and print results
 	public void cluster(char[] classifier){
+		// Local vars
 		int c = 0;		
 		double[] point = new double[this.numInputs];
 		boolean[] noise = new boolean[numSamples];
@@ -44,6 +47,7 @@ public class DBScan {
 			this.clusterLbl[i] = -1;
 		}
 		
+		// Loop through each sample in the set
 		for (int i = 0; i < numSamples; i++){
 			if(!visited[i]){
 				// Get point i
@@ -66,6 +70,7 @@ public class DBScan {
 			}
 		}
 		
+		// Calculate the results based on clusterLbl
 		for (int i = 0; i < this.numSamples; i++){
 			if(this.clusterLbl[i] != -1){
 				if(results.size() < this.clusterLbl[i] || results.isEmpty()){
@@ -87,6 +92,7 @@ public class DBScan {
 			}			
 		}	
 		
+		// Print out the cluster structure
 		for (int i = 0; i < results.size(); i++){
 			System.out.print("Cluster " + (i + 1) + ": ");
 			for (int j = 0; j < this.classes.length; j++){
@@ -114,12 +120,14 @@ public class DBScan {
 		System.out.println("Cluster Purity: " + ((double)sum/(double)numSamples));
 	}
 	
+	// Expand the cluster neighborhood
 	private void expandCluster(double[] point, ArrayList<Integer> neighbors, int c, int i){
 		double[] pPrime = new double[this.numInputs];
 		ArrayList<Integer> nbhPrime = new ArrayList<Integer>();
 		
 		this.clusterLbl[i] = c;
 		
+		// Process each point in the neighborhood
 		for (int j = 0; j < neighbors.size(); j++){
 			// Get the next point pPrime from the neighbors of point i
 			for (int k = 0; k < this.numInputs; k++){
@@ -139,6 +147,7 @@ public class DBScan {
 		}
 	}
 	
+	// Returns the current neighborhood of point i
 	private ArrayList<Integer> getNbhood(double[] point){
 		ArrayList<Integer> nbhood = new ArrayList<Integer>();
 		double[] pPrime = new double[this.numInputs];
@@ -154,6 +163,7 @@ public class DBScan {
 		return nbhood;
 	}
 	
+	// Calculates Euclidean distance
 	private double distance(double[] x1, double[] x2){
 		double sum = 0.0;
 		double dist;

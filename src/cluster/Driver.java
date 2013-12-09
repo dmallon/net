@@ -15,7 +15,7 @@ public class Driver{
 		int epochs = 0;	
 		
 		int numClasses;
-		double rate = 0.9;
+		double rate = 0.1;
 		
 		boolean classFirst;
 		
@@ -165,7 +165,7 @@ public class Driver{
 			case 2:
 				KMeans km = new KMeans(numInputs, numClasses, classes);
 				km.train(trainSet, numSamples);
-				km.process(testSet, numSamples, testExp);
+				km.test(testSet, numSamples, testExp);
 				break;
 			// DB-Scan
 			case 3:

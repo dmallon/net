@@ -2,7 +2,7 @@ package cluster;
 
 import java.util.Random;
 
-// Class to define MLPNN structure and functionality
+// Class to define Competitve Learning net structure and functionality
 public class CompNet{	
 	private int numInputs;
 	private int numOutputs;	
@@ -38,6 +38,7 @@ public class CompNet{
 		int maxIndex;
 		int index;
 		
+		// Initialize the weights to random points from the data set
 		for (int i = 0; i < this.numOutputs; i++){
 			index = rnd.nextInt(numSamples);		
 			for(int j = 0; j < this.numInputs; j++){
@@ -91,12 +92,14 @@ public class CompNet{
 		double maxOutput;
 		int maxIndex;
 		
+		// Initialize result matrix to 0
 		for(int i = 0; i < this.numOutputs; i++){
 			for (int j = 0; j < this.numOutputs; j++){
 				results[i][j] = 0;
 			}
 		}
 		
+		// Process each sample in the set
 		for(int i = 0; i < numSamples; i++){
 			// Get the input from the set
 			for (int j = 0; j < this.numInputs; j++){
@@ -106,6 +109,7 @@ public class CompNet{
 			// Output layer
 			maxOutput = 0.0;
 			maxIndex = 0;
+			// Find the output node with the highest output signal
 			for (int j = 0; j < this.numOutputs; j++){
 				this.output[j].activate(input);	
 				if(this.output[j].getOutput() > maxOutput){
@@ -113,12 +117,14 @@ public class CompNet{
 					maxIndex = j;
 				}
 			}
+			// Assign point i to the cluster for that output
 			for(int j = 0; j < this.numOutputs; j++){
 				if(classifier[i] == this.classes[j]){
 					results[maxIndex][j]++;
 				}
 			}
 		}
+		// Print out the cluster structure
 		for(int i = 0; i < this.numOutputs; i++){
 			System.out.print("Cluster " + (i + 1) + ": ");
 			for (int j = 0; j < this.numOutputs; j++){
