@@ -176,7 +176,9 @@ public class Driver{
 				ACOC aco = new ACOC(numInputs, numClasses, numSamples);
 				aco.train(trainSet, epochs);
 				break;
-			case 5: 
+			case 5:
+				PSOC ps = new PSOC(numInputs, numClasses, classes);
+				ps.cluster(testSet, numSamples, testExp);
 				break;		
 		}		
 		// Close the scanners

@@ -1,0 +1,134 @@
+Select clustering algorithm: 
+1. Competitive Neural Net
+2. K-Means
+3. DB-Scan
+4. ASO
+5. PSO
+5
+Select input file: 
+1. wine.data
+2. voting-record.data
+3. transfusion.data
+4. tic-tac-toe.data
+5. mammogram.data
+6. liver.data
+7. iris.data
+8. fertility.data
+9. banknote-auth.data
+10. balance-scale.data
+10
+Global Best Error: 0.9897166007390665
+Global Best Error: 0.9897166007390665
+Global Best Error: 0.8697840168559772
+Global Best Error: 0.8697840168559772
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8302267144935316
+Global Best Error: 0.8293979908136245
+Global Best Error: 0.8293979908136245
+Global Best Error: 0.8249667958677854
+Global Best Error: 0.8249667958677854
+Global Best Error: 0.8249667958677854
+Global Best Error: 0.8249667958677854
+Global Best Error: 0.8247581423318122
+Global Best Error: 0.8247581423318122
+Global Best Error: 0.8247581423318122
+Global Best Error: 0.8232208435737173
+Global Best Error: 0.8232208435737173
+Global Best Error: 0.8232208435737173
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.8146556388509825
+Global Best Error: 0.813067588542836
+Global Best Error: 0.813067588542836
+Global Best Error: 0.813067588542836
+Global Best Error: 0.813067588542836
+Global Best Error: 0.813067588542836
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123995353679286
+Global Best Error: 0.8123633246207481
+Global Best Error: 0.8123633246207481
+Global Best Error: 0.8123633246207481
+Global Best Error: 0.8121317322895364
+Global Best Error: 0.8121317322895364
+Global Best Error: 0.8121317322895364
+Global Best Error: 0.8120813515104839
+Global Best Error: 0.8120813515104839
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119978011418824
+Global Best Error: 0.8119976862457886
+Global Best Error: 0.8119976862457886
+Global Best Error: 0.8119976862457886
+Global Best Error: 0.8119976862457886
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119965933854888
+Global Best Error: 0.8119956876593273
+Global Best Error: 0.8119956876593273
+Global Best Error: 0.81199412492091
+Global Best Error: 0.81199412492091
+Global Best Error: 0.8119933024893456
+Global Best Error: 0.8119933024893456
+Global Best Error: 0.8119933024893456
+Global Best Error: 0.8119921502556265
+Global Best Error: 0.8119921502556265
+Global Best Error: 0.8119921502556265
+Global Best Error: 0.8119921502556265
+Global Best Error: 0.8119921502556265
+Global Best Error: 0.8119921502556265
+Global Best Error: 0.8119921502556265
+Global Best Error: 0.8119921502556265

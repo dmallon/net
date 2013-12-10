@@ -178,4 +178,8 @@ public class KMeans {
 		else
 			return dist;
 	}
+	
+	public double[][] getCenters(){
+		return this.centers;
+	}
 }
