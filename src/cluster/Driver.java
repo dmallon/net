@@ -44,7 +44,7 @@ public class Driver{
 		System.out.println("5. PSO");
 		algorithm = keyscan.nextInt();
 		
-		if(algorithm == 1){			
+		if(algorithm == 1 || algorithm == 4){			
 			System.out.println("Enter number of training epochs: ");
 			epochs = keyscan.nextInt();
 		}
@@ -173,6 +173,8 @@ public class Driver{
 				dbs.cluster(testExp);
 				break;
 			case 4:
+				ACOC aco = new ACOC(numInputs, numClasses, numSamples);
+				aco.train(trainSet, epochs);
 				break;
 			case 5: 
 				break;		
