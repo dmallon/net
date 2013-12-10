@@ -174,7 +174,9 @@ public class Driver{
 				break;
 			case 4:
 				break;
-			case 5: 
+			case 5:
+				PSOC ps = new PSOC(numInputs, numClasses, classes);
+				ps.cluster(testSet, numSamples, testExp);
 				break;		
 		}		
 		// Close the scanners

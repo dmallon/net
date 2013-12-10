@@ -1,0 +1,157 @@
+Select clustering algorithm: 
+1. Competitive Neural Net
+2. K-Means
+3. DB-Scan
+4. ASO
+5. PSO
+5
+Select input file: 
+1. wine.data
+2. voting-record.data
+3. transfusion.data
+4. tic-tac-toe.data
+5. mammogram.data
+6. liver.data
+7. iris.data
+8. fertility.data
+9. banknote-auth.data
+10. balance-scale.data
+7
+Global Best Error: 0.8779940662721052
+Global Best Error: 0.8300638190719759
+Global Best Error: 0.6726879853697176
+Global Best Error: 0.6726879853697176
+Global Best Error: 0.6726879853697176
+Global Best Error: 0.6726879853697176
+Global Best Error: 0.6726879853697176
+Global Best Error: 0.6726879853697176
+Global Best Error: 0.6726879853697176
+Global Best Error: 0.6726879853697176
+Global Best Error: 0.6368124335276046
+Global Best Error: 0.6368124335276046
+Global Best Error: 0.6368124335276046
+Global Best Error: 0.6368124335276046
+Global Best Error: 0.6368124335276046
+Global Best Error: 0.6155398740557617
+Global Best Error: 0.6155398740557617
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6094298591521623
+Global Best Error: 0.6036287064749662
+Global Best Error: 0.6036287064749662
+Global Best Error: 0.6036287064749662
+Global Best Error: 0.6036287064749662
+Global Best Error: 0.5972884551236051
+Global Best Error: 0.5972884551236051
+Global Best Error: 0.5957078958005501
+Global Best Error: 0.5957078958005501
+Global Best Error: 0.5957078958005501
+Global Best Error: 0.5957078958005501
+Global Best Error: 0.5957078958005501
+Global Best Error: 0.5946101778250451
+Global Best Error: 0.5946101778250451
+Global Best Error: 0.5942771308116904
+Global Best Error: 0.5942771308116904
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5942058461508308
+Global Best Error: 0.5936755984393818
+Global Best Error: 0.5935702816392313
+Global Best Error: 0.5935702816392313
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.592747282622069
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5927456673870442
+Global Best Error: 0.5926489178426037
+Global Best Error: 0.5926489178426037
+Global Best Error: 0.5926489178426037
+Global Best Error: 0.5926489178426037
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.592614609019819
+Global Best Error: 0.5926106039044243
+Global Best Error: 0.5926106039044243
+Global Best Error: 0.5926106039044243
+Global Best Error: 0.5926106039044243
+Global Best Error: 0.5926106039044243
+Global Best Error: 0.5926102945304311
+Global Best Error: 0.5926102945304311
+Global Best Error: 0.5926102945304311
+Global Best Error: 0.592610076345933
+Global Best Error: 0.592610076345933
+Global Best Error: 0.592610076345933
+Global Best Error: 0.592610076345933
+Global Best Error: 0.5926093889080447
+Global Best Error: 0.5926084289815964
+Global Best Error: 0.5926078424005842
+Global Best Error: 0.5926078424005842
+Global Best Error: 0.5926078424005842
+Global Best Error: 0.5926075839330596
+Global Best Error: 0.5926075839330596
+Global Best Error: 0.5926075839330596
+Global Best Error: 0.5926075839330596
+Global Best Error: 0.5926071748418061
+Global Best Error: 0.5926071748418061
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926066248416608
+Global Best Error: 0.5926065941491016
+Global Best Error: 0.592606017248086
+Global Best Error: 0.592606017248086
